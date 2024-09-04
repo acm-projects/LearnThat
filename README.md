@@ -111,6 +111,10 @@ Some basic ones:
 | git pull origin "branch" | Pull updates from a specific branch | 
 
 # Developers
+- Oudom Pach
+- Ranvir Patel
+- Jakob Kuhnen
+- Chuanjie Duanmu
 
 # Project Manager
 - Kacie Yee
