@@ -6,6 +6,7 @@ Learning a language is a long and grueling process that takes years of consisten
 # MVP
 
   - Double-click on a word (highlight it) to pull up its definition and save it to a vocabulary list
+  - Click to hear word pronunciation
   - Keep track of how many times each word is double-tapped, and display a short quiz of the most double-tapped words often
   - Sort different vocabulary words into folders 
   - At the end of the week, display the “Word You Struggled the Most With”
@@ -13,6 +14,7 @@ Learning a language is a long and grueling process that takes years of consisten
 
 # Stretch Goals
 
+- Keep track of the context that you last saw the word in
 - Feature to write your own definition of a word (for slang)
 - Display stats of the most saved words, total words searched up
 - Allow user to manually type in a word to save (for audio)
