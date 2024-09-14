@@ -9,7 +9,7 @@ Learning a language is a long and grueling process that takes years of consisten
   - Click to hear word pronunciation
   - Keep track of how many times each word is double-tapped, and display a short quiz of the most double-tapped words often
   - Sort different vocabulary words into folders 
-  - At the end of the week, display the “Word You Struggled the Most With”
+  - Display the “Word You Struggled the Most With” based on data from the past x days
 
 
 # Stretch Goals
