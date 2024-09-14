@@ -1,16 +1,14 @@
 {
+    "name": "Learn That",
     "manifest_version": 3,
-    "name": "Test",
-    "description": "test!",
     "version": "1.1",
-    
-    
-    "action": {
-        "default_popup": "index.html",
-        "default_title": "Hello World"
+    "background": {
+      "service_worker": "background.js"
     },
     "permissions": [
-    "unlimitedStorage",
-    "notifications"
-    ]
-}
+      "offscreen"
+    ],
+    "action": {
+        "default_popup": "index.html"
+      }
+  }
