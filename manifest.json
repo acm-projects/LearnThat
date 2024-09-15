@@ -1,14 +1,23 @@
 {
-    "name": "Learn That",
-    "manifest_version": 3,
-    "version": "1.1",
-    "background": {
-      "service_worker": "background.js"
-    },
-    "permissions": [
-      "offscreen"
-    ],
-    "action": {
-        "default_popup": "index.html"
-      }
+  "name": "Learn That",
+  "manifest_version": 3,
+  "version": "1.1",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "identity",
+    "offscreen"
+  ],
+  "action": {
+    "default_popup": "index.html"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' https://www.gstatic.com/ https://www.googleapis.com/; object-src 'self'"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
   }
+}
