@@ -1,5 +1,5 @@
   // This URL must point to the public site
-  const _URL = 'http://127.0.0.1:5000';
+  const _URL = 'http://127.0.0.1:5500/LearnThat/'; //This is my local host server, might need to change while testing on other devices
   const iframe = document.createElement('iframe');
   iframe.src = _URL;
   document.documentElement.appendChild(iframe);
@@ -36,3 +36,4 @@
     iframe.contentWindow.postMessage({"initAuth": true}, new URL(_URL).origin);
     return true;
   }
+    

@@ -1,11 +1,13 @@
-// Import the functions you need from the SDKs you need
+/*
+//THIS CODE CAUSES ISSUES IN THE BUTTON. THE SETUP HAS BEEN DONE IN A CDN FORMAT IN THE index.html FILE
+// Import Firebase functions
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth/web-extension';
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getAuth } from 'firebase/auth';
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyA1gyYT3z7FuHhDGh2cRvcUE6OGUXoablY",
   authDomain: "learnthat-217f4.firebaseapp.com",
@@ -16,6 +18,8 @@ const firebaseConfig = {
   measurementId: "G-EKZN4B5LTF"
 };
 
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const auth = getAuth(app);
+*/
