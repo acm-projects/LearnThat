@@ -1,4 +1,4 @@
-//The file for highlighting the word and making it show up in the browser
+//The file for highlighting the word and making it show up in the browser 4
 
 
 document.addEventListener('mouseup',() =>{
