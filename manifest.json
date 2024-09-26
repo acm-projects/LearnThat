@@ -6,9 +6,18 @@
       "service_worker": "background.js"
     },
     "permissions": [
-      "offscreen"
+      "offscreen",
+      "activeTab",
+      "scripting"
+
     ],
     "action": {
-        "default_popup": "index.html"
-      }
+        "default_popup": "popup.html"
+      },
+      "content_scripts" : [
+        {
+          "matches": ["<all_urls>"],
+          "js": ["contentScript.js"]
+        }
+      ]
   }
