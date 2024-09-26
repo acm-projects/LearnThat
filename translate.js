@@ -1,8 +1,13 @@
+require('dotenv').config()
+
+const apiKey = process.env.API_KEY;
+console.log(apiKey);
+
 const {Translate} = require('@google-cloud/translate').v2;
 
 // Replace 'api_key' with your actual API key
 const translate = new Translate({
-  key: 'api_key'
+  key: apiKey
 });
 
 async function translateText(text, targetLanguage) {
