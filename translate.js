@@ -5,7 +5,7 @@ console.log(apiKey);
 
 const {Translate} = require('@google-cloud/translate').v2;
 
-// Replace 'api_key' with your actual API key
+// use gitignore env file for the api key
 const translate = new Translate({
   key: apiKey
 });
