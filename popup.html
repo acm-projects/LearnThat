@@ -22,11 +22,29 @@
         .signup-button:hover {
             background-color: #45a049; /* Darker green on hover */
         }
+
+        /* Hide by default, show when user is logged in */
+        .user-info {
+            display: none;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
-    <button class="signup-button" onclick="window.location.href='signup.html';">
+    <!-- Sign up button -->
+    <button id="signup-button" class="signup-button" onclick="window.location.href='signup.html';">
         Click here to sign up
     </button>
+
+    <!-- User info section -->
+    <div id="user-info" class="user-info"></div>
+
+    <script src="popup.js"></script>
+    <script src="webpage.js"></script>
 </body>
 </html>

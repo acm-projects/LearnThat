@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 
 
 
@@ -31,7 +31,7 @@ const signupBtn = document.getElementById('signupBtn');
 
 // Debugging statements
 console.log("Popup script loaded");
-const auth = getAuth();
+const auth = getAuth(app);
 
 //Handle creating users
 signupBtn.addEventListener("click", function (event){
@@ -85,4 +85,15 @@ signInWithEmailAndPassword(auth, emailField, passwordField)
         alert("Invalid credentials: " + errorMessage);
       }
   });
+});
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+      // User logged in already or has just logged in.
+      console.log("User UID: " + user.uid); // Log the UID
+      // Optionally, you can update the UI or take other actions here.
+  } else {
+      // User not logged in or has just logged out.
+      console.log("No user is logged in.");
+  }
 });
