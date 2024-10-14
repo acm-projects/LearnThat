@@ -7,7 +7,6 @@ require('dotenv').config();
 const app = express();
 const port = 3000;
 
-// Google Cloud Translation setup
 const translate = new Translate({
     key: process.env.API_KEY, // Your Google API key
 });
@@ -19,9 +18,9 @@ admin.initializeApp({
 });
 const db = admin.firestore(); // Firestore instance
 
-app.use(cors()); // Enable CORS for all routes
-app.use(express.json()); // To parse JSON bodies
-app.use(bodyParser.json()); // Parse JSON request bodies
+app.use(cors()); 
+app.use(express.json());
+app.use(bodyParser.json()); 
 
 // Translate and save the highlighted text to Firestore
 app.post('/translate', async (req, res) => {
