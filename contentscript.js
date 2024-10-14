@@ -89,13 +89,14 @@ function hideTooltip() {
     }
 }
 
-function updateTooltip(translation, text) {
+//ignore this
+/*function updateTooltip(translation, text) {
     const tooltip = document.getElementById('tooltip');
     if (tooltip) {
         // Update the tooltip content with the actual translation
         tooltip.textContent = `Selected Text: ${text}\nTranslation: ${translation}`;
     }
-}
+}*/
 /*
 // Translation logic
 function fetchTranslation(text) {
