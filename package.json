@@ -12,9 +12,11 @@
   "dependencies": {
     "@flaticon/flaticon-uicons": "^3.3.1",
     "bootstrap": "^5.3.3",
-    "flaticon": "^0.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-icons": "^5.3.0",
+    "react-router-dom": "^6.27.0",
+    "recharts": "^2.13.0",
     "vite-plugin-static-copy": "^2.0.0"
   },
   "devDependencies": {
