@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn That Tooltip</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Tooltip container hi*/
+        .tooltip {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            color: #333;
+            text-align: left;
+            border-radius: 5px;
+            padding: 10px;
+            z-index: 1000;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 220px;
+        }
+
+        /* Style for the heading */
+        .tooltip-heading {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* Style for the fields */
+        .tooltip-label {
+            font-size: 14px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .tooltip .translation {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div id="tooltip" class="tooltip" >
+        <div class="tooltip-heading">Learn That</div>
+        <div id="highlightedWord" class="tooltip-label"></div>
+        <div id="translation" class="tooltip-label translation"></div>
+    </div>
+    <script type="module" src="contentscript.js"></script>
+</body>
+</html>
