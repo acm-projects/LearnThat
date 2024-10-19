@@ -28,8 +28,11 @@ const Flashcard = ({ children: { selection, translation } }: Props) => {
         >
             <p className={flashcardSideClass}>{cardSide}</p>
             {!isFlipped && (
-                <a onClick={() => console.log("pronounce " + cardSide)}>
-                    <i className={"fi fi-rr-volume " + flashcardSideClass}></i>
+                <a
+                    className={flashcardSideClass}
+                    onClick={() => console.log("pronounce " + cardSide)}
+                >
+                    <i className={"fi fi-rr-volume"}></i>
                 </a>
             )}
         </button>

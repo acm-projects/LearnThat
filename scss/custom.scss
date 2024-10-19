@@ -54,11 +54,13 @@ $secondary: white;
     display: none;
 }
 
+// for speaker button on term flashcards
 .fi-rr-volume:before
 {
     position: relative;    
     margin: 11px 5px;
-    float: right;    
+    float: right;   
+    color:black; 
 }
 
 // properly positions flaticon dropdown arrow for language select dropdown button
