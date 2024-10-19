@@ -18,7 +18,7 @@ export default defineConfig({
     outDir: 'build',
     rollupOptions: {
       input: {
-        main: './index.html',
+        main: './popup.html',
       },
     },
   },

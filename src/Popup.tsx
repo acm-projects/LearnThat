@@ -35,7 +35,7 @@ function Popup() {
 
     return (
         <>
-            <a href="https://localhost:3000" target="_blank">
+            <a href="http://localhost:5173" target="_blank">
                 <div>
                     <h1 className="title">LearnThat</h1>
                 </div>
