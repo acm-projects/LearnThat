@@ -7,6 +7,7 @@ npm install
 
 npm run build 
 (builds files for the chrome extension, to load extension choose the /build folder when you hit load unpacked)
+(will need to be run whenever changes are made to files necessary for the extension)
 
 npm run dev
 (starts the localhost for the website)

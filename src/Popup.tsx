@@ -35,10 +35,8 @@ function Popup() {
 
     return (
         <>
-            <a href="http://localhost:5173" target="_blank">
-                <div>
-                    <h1 className="title">LearnThat</h1>
-                </div>
+            <a href="http://localhost:5173" target="_blank" className="title">
+                <h1 className="popup-title">LearnThat</h1>
             </a>
             <Dropdown
                 selectedLanguageIndex={selectedLanguageIndex}

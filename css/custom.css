@@ -11919,6 +11919,11 @@ textarea.form-control-lg {
   font-size: 42px;
 }
 
+a.title {
+  font-weight: 500;
+  text-decoration: inherit;
+}
+
 .title:hover {
   color: #cacaca;
 }
