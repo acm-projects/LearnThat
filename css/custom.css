@@ -11876,13 +11876,6 @@ textarea.form-control-lg {
   display: none;
 }
 
-.fi-rr-volume:before {
-  position: relative;
-  margin: 11px 5px;
-  float: right;
-  color: black;
-}
-
 .fi-br-angle-down:before {
   position: relative;
   top: 10.5px;
@@ -11922,10 +11915,6 @@ textarea.form-control-lg {
 a.title {
   font-weight: 500;
   text-decoration: inherit;
-}
-
-.title:hover {
-  color: #cacaca;
 }
 
 .term-view {

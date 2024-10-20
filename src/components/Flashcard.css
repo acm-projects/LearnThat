@@ -1,0 +1,27 @@
+/* for speaker button on term flashcards*/
+.fi-rr-volume:before
+{
+    position: relative;    
+    margin: 6px;
+    float: right;   
+    color:black; 
+}
+.fi-rr-volume
+{
+    height: 28px;
+    width: 28px;
+    float: right;
+    margin: 5px 0px;
+    border-radius: 50px;
+}
+.fi-rr-volume:hover
+{
+    background-color: rgba(152, 238, 247, 0.6);
+}
+
+
+
+/* stops flashcard from flashing white when you hit pronounce button*/
+.term-flashcard:active {
+    background-color: revert !important;
+}

@@ -36,6 +36,9 @@ body {
   padding:25px;
   color:white;
 }
+.popup-title:hover{
+  color:#cacaca;
+}
 
 button {
   border-radius: 8px;

@@ -54,14 +54,7 @@ $secondary: white;
     display: none;
 }
 
-// for speaker button on term flashcards
-.fi-rr-volume:before
-{
-    position: relative;    
-    margin: 11px 5px;
-    float: right;   
-    color:black; 
-}
+
 
 // properly positions flaticon dropdown arrow for language select dropdown button
 .fi-br-angle-down:before {
@@ -102,10 +95,6 @@ $secondary: white;
 a.title {
     font-weight: 500;  
     text-decoration: inherit;
-}
-
-.title:hover{
-    color:#cacaca;
 }
 
 

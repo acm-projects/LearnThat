@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import "./Flashcard.css";
+
 export interface Term {
     selection: string;
     translation: string;
@@ -30,7 +32,7 @@ const Flashcard = ({ children: { selection, translation } }: Props) => {
             {!isFlipped && (
                 <a
                     className={flashcardSideClass}
-                    onClick={() => console.log("pronounce " + cardSide)}
+                    onClick={(event) => pronounce(event, cardSide)}
                 >
                     <i className={"fi fi-rr-volume"}></i>
                 </a>
@@ -38,5 +40,10 @@ const Flashcard = ({ children: { selection, translation } }: Props) => {
         </button>
     );
 };
+
+function pronounce(event: React.MouseEvent, text: string) {
+    event.stopPropagation();
+    console.log("pronounce " + text);
+}
 
 export default Flashcard;
