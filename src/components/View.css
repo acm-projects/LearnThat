@@ -1,0 +1,244 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Helps with sizing */
+ 
+}
+
+body {
+    overflow: auto; /* This will allow scrolling if needed */
+}
+
+.background {
+    background-color: white; 
+    min-height: 100vh; /* Full height of the viewport */
+    width: 1273px; /* Full width */
+    height: 700px; 
+    padding-left: 113px;
+    padding-top: 42px;
+}
+
+.top {
+    width: 100%; /* Full width of the parent */
+    height: 80px; /* Height of the rectangle */
+    background: linear-gradient(to right,#326FB1, #3AB4C5); /* Gradient for the rectangle */
+    position: absolute; /* Positioned relative to the .background */
+    top: 0; /* Align at the top */
+    left: 0; /* Align to the left */
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Vertically center */
+    justify-content: flex-start; /* Align to the left */
+    padding-left: 80px; /* Add some padding to the left */
+    z-index: 1;
+   
+ 
+}
+
+.header-text {
+    color: white; /* Text color */
+    font-size: 40px; /* Font size */
+    font-weight: bold; /* Make the text bold */
+    margin-right: 550px; 
+}
+
+
+.right-text, .right-text1 {
+    display: inline-block;
+  }
+  
+  .right-text a, .right-text1 a {
+    font-size: 18px;
+    margin-left: 15px; /* Space between View and Quiz */
+    color: white;
+    text-decoration: none;
+  }
+  
+  .right-text a:hover, .right-text1 a:hover {
+    text-decoration: underline;
+  }
+
+.link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    margin-right: 100px; /* Space between View and Quiz */
+    margin-top: 40px; 
+}
+
+.link-space {
+    margin-left: 20px; /* Additional space for Quiz */
+    color: #fff; 
+    margin-right: 100px; 
+    margin-top: 50px;
+}
+
+.link:hover, .link-space:hover {
+    text-decoration: underline; /* Adds underline on hover */
+    color: #fff; 
+    margin-bottom:15px ;
+}
+
+.icon-link {
+    cursor: pointer; /* Changes cursor to pointer when hovered */
+}
+
+.icon{
+    font-size: 50px;
+    color: #fff; 
+    padding-top: 15px; 
+   
+}
+
+
+
+
+
+.box1 {
+    width: 450px;
+    height: 250px;
+    background-color: #C4F6FB;
+    border-radius: 10px;
+    padding-top: 3px;
+    margin-top:60px; 
+    position: relative; /* Ensure it is in the normal flow */
+    z-index: 2;
+}
+
+
+
+
+.chart-container {
+    padding: 20px; /* Add some padding */
+    background-color: transparent; /* Background color for the chart container */
+    border-radius: 10px; /* Rounded corners */
+    margin-top: -20px; /* Space above the chart */
+    padding-right: 20px; 
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center the chart */
+
+}
+
+.header-text1 {
+    color: #000; /* Text color */
+    font-size: 20px; /* Font size */
+    font-weight: semibold;
+    text-align: center; /* Center text horizontally */
+    padding-top: 7px; 
+
+}
+
+.box2 {
+    width: 450px;
+    height: 285px;
+    background-color: #C4F6FB;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex; /* Use flexbox for layout */
+    align-items: left; /* Vertically center */
+    padding-left: 50px;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 30px; 
+    padding-top: 20px; 
+    padding-left: 20px;
+    padding-right: 20px; 
+}
+
+
+.header-text2 {
+    color: #000; /* Text color */
+    font-size: 20px; /* Font size */
+    font-weight: semibold;
+    text-align: center; /* Center text horizontally */
+    padding-bottom: 20px;
+    padding-left: -20px;
+}
+
+.flex-container {
+    display: flex; /* Use flexbox */
+  
+    justify-content: space-between; /* Space between graph and text */
+}
+
+
+.Circular-Progress {
+    position: relative; 
+    height: 170px; 
+    width: 170px; 
+    border-radius: 50%;
+    background: conic-gradient(#326FB1 3.6deg, #eddeed 0deg ); 
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    
+}
+
+.Circular-Progress::before {
+    content: ""; 
+    position: absolute; 
+    height: 130px; 
+    width: 130px; 
+    border-radius: 50%;
+    background-color: #C4F6FB;
+
+}
+
+.progress-value {
+    position: relative;
+    font-size: 40px;
+    font-weight: semi-bold;
+    color: #000;
+
+}
+
+.text {
+    margin-left: 20px; /* Add some space between the graph and the text */
+}
+
+.textbox1{
+    height: 37px; 
+    width: 90px; 
+    background: linear-gradient(to bottom,#326FB1, #3AB4C5); /* Add background color for visibility */
+    display: flex; /* Use flex to center content */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    border-radius: 5px;
+    margin-left: 32px;
+    margin-top: 5px; 
+    margin-bottom: 5px;
+}
+
+.textbox2{
+    height: 37px; 
+    width: 90px; 
+    background: linear-gradient(to bottom,#326FB1, #3AB4C5); /* Add background color for visibility */
+    display: flex; /* Use flex to center content */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    border-radius: 5px;
+    margin-left: 32px;
+    margin-top: 5px; 
+    margin-bottom: 5px;
+}
+
+.textbox3{
+    height: 37px; 
+    width: 90px; 
+    background: linear-gradient(to bottom,#326FB1, #3AB4C5); /* Add background color for visibility */
+    display: flex; /* Use flex to center content */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    border-radius: 5px;
+    margin-left: 32px;
+    margin-top: 5px; 
+    margin-bottom: 5px;
+}
+
+.highest{
+    margin-left: 10px;
+}
+
+.lowest{
+    margin-left: 15px; 
+}
