@@ -3,7 +3,7 @@ import "./SignUp.css";
 import { useNavigate, Link } from "react-router-dom";
 import { FaUser, FaLock } from "react-icons/fa";
 // @ts-ignore
-import { signUp } from "../../public/webpage.js";
+import { signUp } from "../../webpage.js";
 
 interface Props {
     onSubmit: (password: string) => void;

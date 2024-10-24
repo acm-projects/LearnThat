@@ -11,20 +11,13 @@ require('dotenv').config();
 const app = express();
 const port = 3000;
 
-<<<<<<< HEAD:translate.js
-=======
-const translate = new Translate({
-    key: 'AIzaSyCMD8xcQayDQ6v4COy3TQ6RGOCb-qk77_8', // Your Google API key
-});
-
-// Initialize Firebase Admin SDK with service account credentials
->>>>>>> 3b8a865c67c89a0c72b5d0b7a4bd75715b2ee1d3:public/translate.js
 const serviceAccount = require('./firebaseServiceAccount.json');
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
 const db = admin.firestore(); 
+
 
 const translate = new Translate({
     key: process.env.API_KEY,
@@ -142,5 +135,5 @@ npm install @google-cloud/translate
 npm install @google-cloud/text-to-speech
 npm install @google-cloud/storage
 npm install fs
-node translate.js
+node public/translate.js
 */

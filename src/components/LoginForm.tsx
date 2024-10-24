@@ -3,7 +3,7 @@ import "./LoginForm.css";
 import { FaUser, FaLock } from "react-icons/fa";
 import { useNavigate, Link } from "react-router-dom";
 // @ts-ignore
-import { logIn } from "../../public/webpage.js";
+import { logIn } from "../../webpage.js";
 
 function LoginForm() {
     const navigate = useNavigate(); // Initialize the useNavigate hook
