@@ -1,9 +1,14 @@
 to run everything:
 
-make sure you have the firebaseServiceAccount.json in the public/ folder and the .env file in the root folder
+make sure you have the firebaseServiceAccount.json and the .env file in the root folder
+
+cd learnthat
+(if youre oudom)
 
 npm install
 (should add all necessary modules)
+
+
 
 npm run build 
 (builds files for the chrome extension, to load extension choose the /build folder when you hit load unpacked)
@@ -12,5 +17,5 @@ npm run build
 npm run dev
 (starts the localhost for the website)
 
-node public/translate.js
+node translate.cjs
 (starts the translating functionality stuff)
