@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Translation</title>
+</head>
+<body>
+    <h1>Delete Translation</h1>
+    <label for="originalText">Original Text:</label>
+    <input type="text" id="originalText" placeholder="Enter original text">
+    <button id="deleteButton">Delete Translation</button>
+    <div id="message"></div>
+
+    <script>
+        document.getElementById('deleteButton').addEventListener('click', async () => {
+            const originalText = document.getElementById('originalText').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/delete-translation', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ originalText }),
+                });
+
+                const data = await response.json();
+                const messageDiv = document.getElementById('message');
+
+                if (response.ok) {
+                    messageDiv.textContent = data.message; 
+                    messageDiv.style.color = 'green'; 
+                } else {
+                    messageDiv.textContent = data.message; 
+                    messageDiv.style.color = 'red'; 
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('message').textContent = 'Failed to delete translation.';
+                document.getElementById('message').style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>

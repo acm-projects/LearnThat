@@ -4,8 +4,10 @@ const bodyParser = require('body-parser');
 const { Translate } = require('@google-cloud/translate').v2;
 const textToSpeech = require('@google-cloud/text-to-speech');
 const admin = require('firebase-admin');
-const { Storage } = require('@google-cloud/storage'); 
+const { Storage } = require('@google-cloud/storage');
+const fs = require('fs');
 require('dotenv').config();
+
 const app = express();
 const port = 3000;
 
@@ -13,34 +15,32 @@ const serviceAccount = require('./firebaseServiceAccount.json');
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    storageBucket: 'gs://learnthat-217f4.appspot.com', 
 });
-const db = admin.firestore(); // Firestore instance
+const db = admin.firestore(); 
 
-// Initialize Google Cloud Translation
 const translate = new Translate({
     key: process.env.API_KEY,
 });
 
-// Initialize Google Cloud Text-to-Speech
 const client = new textToSpeech.TextToSpeechClient({
     keyFilename: './firebaseServiceAccount.json',
 });
 
-// Initialize Google Cloud Storage
-const bucket = admin.storage().bucket();
+const storage = new Storage({
+    keyFilename: './firebaseServiceAccount.json',
+});
+const bucketName = 'learnthat-217f4.appspot.com';
 
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
-// Translate and save the highlighted text to Firestore and Firebase Storage
+// Translate and save the highlighted text to Firestore
 app.post('/translate', async (req, res) => {
     const { text, targetLanguage } = req.body;
 
     try {
         const [translation] = await translate.translate(text, targetLanguage);
-
         const request = {
             input: { text: translation },
             voice: { languageCode: targetLanguage, ssmlGender: 'NEUTRAL' },
@@ -48,71 +48,91 @@ app.post('/translate', async (req, res) => {
         };
 
         const [response] = await client.synthesizeSpeech(request);
-
         const audioFileName = `audio_${Date.now()}.mp3`;
-        const file = bucket.file(`audio/${audioFileName}`); // Save the audio file in the 'audio' folder
+        fs.writeFileSync(audioFileName, response.audioContent, 'binary');
 
-        const stream = file.createWriteStream({
+        await uploadAudioToStorage(audioFileName);
+        const audioFileUrl = `https://storage.googleapis.com/${bucketName}/audio/${audioFileName}`;
+
+        const docRef = db.collection('translations').doc();
+        await docRef.set({
+            originalText: text,
+            translatedText: translation,
+            targetLanguage: targetLanguage,
+            audioFileUrl: audioFileUrl,
+            timestamp: admin.firestore.FieldValue.serverTimestamp(),
+        });
+
+        res.json({ original: text, translation, audioFileUrl });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Translation failed or saving to Firestore failed' });
+    }
+});
+
+app.delete('/delete-translation', async (req, res) => {
+    const { originalText } = req.body; 
+
+    try {
+        const translationsRef = db.collection('translations'); 
+        const snapshot = await translationsRef.where('originalText', '==', originalText).get(); 
+        if (snapshot.empty) {
+            return res.status(404).json({ message: 'No matching document found.' }); 
+        }
+
+        const deletePromises = []; 
+        snapshot.forEach(doc => {
+            deletePromises.push(translationsRef.doc(doc.id).delete()); 
+        });
+
+        await Promise.all(deletePromises); 
+        return res.json({ message: 'Word deleted successfully.' }); 
+    } catch (error) {
+        console.error('Error deleting document:', error);
+        return res.status(500).json({ message: 'Error deleting word.' }); 
+    }
+});
+
+// Function to upload audio file to Firebase Storage
+async function uploadAudioToStorage(fileName) {
+    try {
+        await storage.bucket(bucketName).upload(fileName, {
+            destination: `audio/${fileName}`,
             metadata: {
                 contentType: 'audio/mpeg',
             },
         });
-
-        stream.end(response.audioContent, 'binary');
-
-        stream.on('finish', async () => {
-            const audioFileUrl = await file.getSignedUrl({
-                action: 'read',
-                expires: '03-01-2500', 
-            });
-
-            const docRef = db.collection('translations').doc(); 
-            await docRef.set({
-                originalText: text,
-                translatedText: translation,
-                targetLanguage: targetLanguage,
-                audioFileUrl: audioFileUrl[0], // Save the audio file URL
-                timestamp: admin.firestore.FieldValue.serverTimestamp(),
-            });
-
-            // Send back the translation result and audio URL
-            res.json({ original: text, translation, audioFileUrl: audioFileUrl[0] });
-        });
-
-        stream.on('error', (err) => {
-            console.error('Error uploading audio to Firebase Storage:', err);
-            res.status(500).json({ error: 'Failed to upload audio to Firebase Storage' });
-        });
-
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Translation or audio synthesis failed' });
+        fs.unlinkSync(fileName); 
+    } catch (error) {
+        console.error('Error uploading audio to Firebase Storage:', error);
+        throw error;
     }
+}
+
+app.get('/audio/:fileName', (req, res) => {
+    const filePath = req.params.fileName;
+    res.sendFile(`${__dirname}/${filePath}`);
 });
 
+// Start the server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
 
 
-/*
 // Example usage
+/*
 const textToTranslate = 'Hello, world!';
 const targetLanguage = 'es'; // Spanish
-
 translateText(textToTranslate, targetLanguage);
 */
 
-
 /*
-
-run these following lines in the terminal to get it to work make sure to have an api key
+Run the following lines in the terminal to get it to work. Make sure to have an API key:
 cd LearnThat
 npm install @google-cloud/translate
 npm install @google-cloud/text-to-speech
 npm install @google-cloud/storage
 npm install fs
 node translate.js
-
-
 */
