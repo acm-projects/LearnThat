@@ -23,7 +23,7 @@ const Dropdown = ({
                 </button>
                 <ul className="dropdown-menu language-select-dropdown-menu">
                     {children.map((x, index) => (
-                        <li>
+                        <li key={x}>
                             <a
                                 className="dropdown-item language-select-option"
                                 href="#"

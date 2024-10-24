@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import "./Flashcard.css";
 
@@ -13,6 +13,8 @@ interface Props {
 
 const Flashcard = ({ children: { selection, translation } }: Props) => {
     const [isFlipped, setIsFlipped] = useState(false);
+
+    useEffect(() => setIsFlipped(false), [selection, translation]); // reset flashcard when selection or translation is updated (when language is changed)
 
     const cardSide = isFlipped ? translation : selection;
 

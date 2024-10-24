@@ -13,8 +13,8 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Navigate to="/View" />} />
-                <Route path="/LoginForm" element={<LoginForm />} />
-                <Route path="/SignUp" element={<SignUp />} />
+                {<Route path="/LoginForm" element={<LoginForm />} />}
+                {<Route path="/SignUp" element={<SignUp />} />}
                 <Route path="/View" element={<View />} />
             </Routes>
         </Router>

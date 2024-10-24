@@ -2,18 +2,20 @@ import { FormEvent, FormEventHandler, useState } from "react";
 import "./LoginForm.css";
 import { FaUser, FaLock } from "react-icons/fa";
 import { useNavigate, Link } from "react-router-dom";
+// @ts-ignore
+import { logIn } from "../../public/webpage.js";
 
-const LoginForm = () => {
+function LoginForm() {
     const navigate = useNavigate(); // Initialize the useNavigate hook
     const [username, setUsername] = useState(""); // State for username
     const [password, setPassword] = useState(""); // State for password
 
     const handleSubmit: FormEventHandler = (e: FormEvent<Element>) => {
         e.preventDefault(); // Prevent the default form submission
-        // Here you can add authentication logic if needed
+        // Navigate to the /View route on successful log in
         console.log("Username:", username);
         console.log("Password:", password);
-        navigate("/View"); // Navigate to the /View route on form submission
+        logIn(username, password, () => navigate("/View"));
     };
 
     return (
@@ -60,6 +62,6 @@ const LoginForm = () => {
             </form>
         </div>
     );
-};
+}
 
 export default LoginForm;

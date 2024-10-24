@@ -2,6 +2,8 @@ import { FormEventHandler, useState } from "react";
 import "./SignUp.css";
 import { useNavigate, Link } from "react-router-dom";
 import { FaUser, FaLock } from "react-icons/fa";
+// @ts-ignore
+import { signUp } from "../../public/webpage.js";
 
 interface Props {
     onSubmit: (password: string) => void;
@@ -57,21 +59,29 @@ function PasswordForm({ onSubmit }: Props) {
 const SignUp = () => {
     const navigate = useNavigate();
 
-    const handleFormSubmit = (password: string) => {
-        console.log("Passwords match. Navigating to dashboard. " + password);
-        navigate("/View"); // Change to your dashboard route
+    const [username, setUsername] = useState("");
 
-        // TODO: backend handle adding the password to the user maybe?
+    const handleFormSubmit = (username: string, password: string) => {
+        console.log("Passwords match. Attempting sign up " + password);
+        signUp(username, password, () => navigate("/View")); //// Navigate to the /View route on successful log in
     };
 
     return (
         <div className="wrapper">
             <h1>Sign Up</h1>
             <div className="input-box">
-                <input type="text" placeholder="Username" required />
+                <input
+                    type="text"
+                    placeholder="Username"
+                    required
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)} // Update state on input change
+                />
                 <FaUser className="icon" />
             </div>
-            <PasswordForm onSubmit={handleFormSubmit} />{" "}
+            <PasswordForm
+                onSubmit={(password) => handleFormSubmit(username, password)}
+            />{" "}
             {/* Pass the handleFormSubmit function */}
             <div className="remember-forgot">
                 <label>

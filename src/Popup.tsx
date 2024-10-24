@@ -8,7 +8,7 @@ import { Term } from "./components/Flashcard.tsx";
 function Popup() {
     const languages = ["Deutsch", "Español"];
 
-    var terms: Term[][] = [
+    let terms: Term[][] = [
         [
             { selection: "hallo", translation: "hello" },
             {
