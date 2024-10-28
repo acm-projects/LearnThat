@@ -8,7 +8,7 @@ const app = express();
 const port = 3000;
 
 const translate = new Translate({
-    key: 'AIzaSyCMD8xcQayDQ6v4COy3TQ6RGOCb-qk77_8', // Your Google API key
+    key: process.env.API_KEY, // Your Google API key
 });
 
 // Initialize Firebase Admin SDK with service account credentials

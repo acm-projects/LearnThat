@@ -230,7 +230,7 @@ function fetchTranslation(text, targetLanguage, tooltip) {
             return false;
         }
     }
-//});
+// work});
 
 let tooltipVisible = false;
 let hideTimeout;
