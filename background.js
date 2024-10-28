@@ -74,3 +74,11 @@ const OFFSCREEN_DOCUMENT_PATH = '/offscreen.html';
       return auth;
     }
       
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+      if (message.type === 'login') {
+        console.log("Background script received login: ", message.userEmail);
+        // Do something with the login information
+        sendResponse({status: "success"});
+      }
+    });
+    

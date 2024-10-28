@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 
 
 
@@ -9,13 +9,13 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, on
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional ya
   const firebaseConfig = {
-    apiKey: API_KEY,
-    authDomain: AUTH_DOMAIN,
-    projectId: PROJECT_ID,
-    storageBucket: STORAGE_BUCKET,
-    messagingSenderId: MESSAGING_ID,
-    appId: APP_ID,
-    measurementId: MEASUREMENT_ID
+    apiKey: "AIzaSyA1gyYT3z7FuHhDGh2cRvcUE6OGUXoablY",
+    authDomain: "learnthat-217f4.firebaseapp.com",
+    projectId: "learnthat-217f4",
+    storageBucket: "learnthat-217f4.appspot.com",
+    messagingSenderId: "608278789879",
+    appId: "1:608278789879:web:dd56f39017be5d2e7d9df2",
+    measurementId:"G-EKZN4B5LTF" 
   };
 
   // Initialize Firebase
@@ -73,6 +73,8 @@ signInWithEmailAndPassword(auth, emailField, passwordField)
     const user = userCredential.user;
     alert("signed in")
     // ...
+    
+  
   })
   .catch((error) => {
     const errorCode = error.code;
@@ -84,16 +86,9 @@ signInWithEmailAndPassword(auth, emailField, passwordField)
         // Handle other errors
         alert("Invalid credentials: " + errorMessage);
       }
+
+ 
+
   });
 });
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-      // User logged in already or has just logged in.
-      console.log("User UID: " + user.uid); // Log the UID
-      // Optionally, you can update the UI or take other actions here.
-  } else {
-      // User not logged in or has just logged out.
-      console.log("No user is logged in.");
-  }
-});
