@@ -63,7 +63,7 @@ const SignUp = () => {
 
     const handleFormSubmit = (username: string, password: string) => {
         console.log("Passwords match. Attempting sign up " + password);
-        signUp(username, password, () => navigate("/View")); //// Navigate to the /View route on successful log in
+        signUp(username, password, () => navigate("/Home")); //// Navigate to the /Home route on successful log in
     };
 
     return (
@@ -92,7 +92,7 @@ const SignUp = () => {
             <div className="register-link">
                 <p>
                     Already have an account?
-                    <Link to="/LoginForm">Login</Link>
+                    <Link to="/Login">Login</Link>
                 </p>
             </div>
         </div>

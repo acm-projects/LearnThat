@@ -46,7 +46,7 @@
     right: 20px; 
     top: 30%; 
     transform: translate(-50%); 
-    font-size: 20px; 
+    font-size: 20px !important; 
     pointer-events: none;
 }
 
@@ -55,6 +55,7 @@
     justify-content: space-between;
     font-size: 14.5px; 
     margin: 0 0 15px; 
+    
 }
 
 .remember-forgot label input{

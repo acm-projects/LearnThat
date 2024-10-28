@@ -10,6 +10,9 @@ import {
     ResponsiveContainer,
 } from "recharts";
 import { CiSettings } from "react-icons/ci";
+import { Link } from "react-router-dom";
+// @ts-ignore
+import { CircleProgress } from "react-gradient-progress";
 import Dropdown from "./Dropdown";
 import TermView from "./TermView";
 import { Term } from "./Flashcard";
@@ -25,80 +28,64 @@ const data = [
 ];
 
 function View() {
-    useEffect(() => {
-        let circularProgress = document.querySelector(
-                ".Circular-Progress"
-            ) as HTMLElement,
-            progressValue = document.querySelector(
-                ".progress-value"
-            ) as HTMLElement;
-
-        let progressStartValue = 0,
-            progressEndValue = 90, // Example final value
-            speed = 10;
-
-        let progress = setInterval(() => {
-            progressStartValue++;
-
-            // Updating the text and style dynamically
-            progressValue.textContent = `${progressStartValue}%`;
-            circularProgress.style.background = `conic-gradient(#326FB1 ${
-                progressStartValue * 3.6
-            }deg, #eddeed 0deg)`;
-
-            if (progressStartValue === progressEndValue) {
-                clearInterval(progress);
-            }
-        }, speed);
-    }, []);
-
     const languages = ["Deutsch", "Español"];
-
+    const url =
+        "https://storage.googleapis.com/learnthat-217f4.appspot.com/audio/audio_1729738254674.mp3";
     let terms: Term[][] = [
         [
-            { selection: "hallo", translation: "hello" },
+            { selection: "hallo", translation: "hello", audioUrl: url },
             {
                 selection: "bitte",
                 translation:
                     "please is the translation of the word that is the selection",
+                audioUrl: url,
             },
-            { selection: "hallo", translation: "hello" },
-            { selection: "bitte", translation: "please" },
-            { selection: "hallo", translation: "hello" },
-            { selection: "bitte", translation: "please" },
-            { selection: "hallo", translation: "hello" },
-            { selection: "bitte", translation: "please" },
-            { selection: "hallo", translation: "hello" },
-            { selection: "bitte", translation: "please" },
+            { selection: "hallo", translation: "hello", audioUrl: url },
+            { selection: "bitte", translation: "please", audioUrl: url },
+            { selection: "hallo", translation: "hello", audioUrl: url },
+            { selection: "bitte", translation: "please", audioUrl: url },
+            { selection: "hallo", translation: "hello", audioUrl: url },
+            { selection: "bitte", translation: "please", audioUrl: url },
+            { selection: "hallo", translation: "hello", audioUrl: url },
+            { selection: "bitte", translation: "please", audioUrl: url },
         ],
         [
-            { selection: "hola", translation: "hello" },
-            { selection: "por favor", translation: "please" },
+            { selection: "hola", translation: "hello", audioUrl: url },
+            { selection: "por favor", translation: "please", audioUrl: url },
         ],
     ];
-
     const [selectedLanguageIndex, setSelectedLanguageIndex] = useState(1);
+    const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+        const targetPercentage = 70;
+        const interval = setInterval(() => {
+            setProgress((prevProgress) => {
+                if (prevProgress < targetPercentage) {
+                    return prevProgress + 1;
+                } else {
+                    clearInterval(interval);
+                    return targetPercentage;
+                }
+            });
+        }, 20); // Adjust the speed by changing the interval time (20 ms for smooth animation)
+    }, []);
 
     return (
         <div className="view-screen-container">
             <div className="background">
-                {" "}
-                {/* This div should cover the full width */}
                 <div className="top">
                     <h1 className="header-text">LearnThat</h1>
                     <div className="right-text">
-                        <a href="#" className="link">
-                            View
-                        </a>
-                        <a href="#" className="link-space">
-                            Quiz
-                        </a>
+                        <Link to="/Home">Home</Link>
+                        <Link to="/Quiz">Quiz</Link>
                         <a href="#" className="icon-link">
                             <CiSettings className="icon" />
                         </a>
                     </div>
-                </div>{" "}
-                {/* This is the rectangle */}
+                </div>
+
+                {/* Section for Bar Chart */}
                 <div className="box1">
                     <h1 className="header-text1">
                         Number of words added past week
@@ -147,25 +134,32 @@ function View() {
                         </ResponsiveContainer>
                     </div>
                 </div>
+
+                {/* Section for Circle Progress */}
                 <div className="box2">
                     <h1 className="header-text2">Average quiz score</h1>
                     <div className="chart-container">
-                        <div className="Circular-Progress">
-                            <span className="progress-value">0%</span>
-                        </div>
-                        <script src="my-react-app/src/Components/View/script.js"></script>
+                        {CircleProgress && (
+                            <CircleProgress
+                                percentage={progress}
+                                strokeWidth={14}
+                                primaryColor={["#3AB4C5", "#326FB1"]}
+                                secondaryColor={"#fff"}
+                                fontSize={25}
+                            />
+                        )}
                         <div className="text">
                             <p className="number-quiz">Number of quiz taken:</p>
                             <div className="textbox1">
-                                <p className="number-quiz">5</p>
+                                <p className="number">5</p>
                             </div>
                             <p className="highest">Highest quiz score:</p>
                             <div className="textbox2">
-                                <p className="number-quiz">Adjectives</p>
+                                <p className="number">Adjectives</p>
                             </div>
                             <p className="lowest">Lowest quiz score:</p>
                             <div className="textbox3">
-                                <p className="number-quiz">Verbs</p>
+                                <p className="number">Verbs</p>
                             </div>
                         </div>
                     </div>

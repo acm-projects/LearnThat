@@ -12,10 +12,10 @@ function LoginForm() {
 
     const handleSubmit: FormEventHandler = (e: FormEvent<Element>) => {
         e.preventDefault(); // Prevent the default form submission
-        // Navigate to the /View route on successful log in
+        // Navigate to the /Home route on successful log in
         console.log("Username:", username);
         console.log("Password:", password);
-        logIn(username, password, () => navigate("/View"));
+        logIn(username, password, () => navigate("/Home"));
     };
 
     return (

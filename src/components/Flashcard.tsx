@@ -5,13 +5,16 @@ import "./Flashcard.css";
 export interface Term {
     selection: string;
     translation: string;
+    audioUrl: string;
 }
 
 interface Props {
     children: Term;
 }
 
-const Flashcard = ({ children: { selection, translation } }: Props) => {
+const Flashcard = ({
+    children: { selection, translation, audioUrl },
+}: Props) => {
     const [isFlipped, setIsFlipped] = useState(false);
 
     useEffect(() => setIsFlipped(false), [selection, translation]); // reset flashcard when selection or translation is updated (when language is changed)
@@ -34,7 +37,7 @@ const Flashcard = ({ children: { selection, translation } }: Props) => {
             {!isFlipped && (
                 <a
                     className={flashcardSideClass}
-                    onClick={(event) => pronounce(event, cardSide)}
+                    onClick={(event) => pronounce(event, audioUrl)}
                 >
                     <i className={"fi fi-rr-volume"}></i>
                 </a>
@@ -43,9 +46,11 @@ const Flashcard = ({ children: { selection, translation } }: Props) => {
     );
 };
 
-function pronounce(event: React.MouseEvent, text: string) {
+function pronounce(event: React.MouseEvent, url: string) {
     event.stopPropagation();
-    console.log("pronounce " + text);
+    const audio = new Audio(url);
+    audio.play();
+    //    console.log("pronounce " + term.selection);
 }
 
 export default Flashcard;
