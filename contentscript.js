@@ -1,3 +1,6 @@
+//import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
+//The file for highlighting the word and making it show up in the browser 4
+
 
 document.addEventListener('mouseup', (event) => {
     const selectedText = window.getSelection().toString().trim();
@@ -42,7 +45,7 @@ document.addEventListener('mouseup', (event) => {
 });
 
 
-function fetchTranslation(text, targetLanguage, tooltip) {
+function fetchTranslation(text, targetLanguage, tooltip) { //API to get the translation
     fetch('http://localhost:3000/translate', {
         method: 'POST',
         headers: {
@@ -199,7 +202,7 @@ function fetchTranslation(text, targetLanguage, tooltip) {
 }
 
 //saveButton.addEventListener('click', async () => {
-    async function saveTranslation(originalText, translatedText, targetLanguage) {
+    async function saveTranslation(originalText, translatedText, targetLanguage) { //Save translation endpoint
         try {
             const response = await fetch('http://localhost:3000/save-translation', {
                 method: 'POST',
@@ -339,7 +342,7 @@ function hideTooltip() {
     
     //to run this properly:
     /*
-    npm install dotenv
+    npm install dotenv hh
     npm install cors
     npm install express
     node translate.js (to host the server for our base url)
