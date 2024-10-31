@@ -28,6 +28,8 @@ const data = [
 ];
 
 function View() {
+    console.log("rerender");
+
     const languages = ["Deutsch", "Español"];
     const url =
         "https://storage.googleapis.com/learnthat-217f4.appspot.com/audio/audio_1729738254674.mp3";
@@ -72,107 +74,118 @@ function View() {
     }, []);
 
     return (
-        <div className="view-screen-container">
-            <div className="background">
-                <div className="top">
-                    <h1 className="header-text">LearnThat</h1>
-                    <div className="right-text">
-                        <Link to="/Home">Home</Link>
-                        <Link to="/Quiz">Quiz</Link>
-                        <a href="#" className="icon-link">
-                            <CiSettings className="icon" />
-                        </a>
-                    </div>
+        <div className="background">
+            <div className="top">
+                <h1 className="header-text">LearnThat</h1>
+                <div className="right-text">
+                    <Link to="/Home">Home</Link>
+                    <Link to="/Quiz">Quiz</Link>
+                    <a href="#" className="icon-link">
+                        <CiSettings className="icon" />
+                    </a>
                 </div>
+            </div>
+            <div className="view-content">
+                <div>
+                    {/* Section for Bar Chart */}
+                    <div className="box1">
+                        <h1 className="header-text1">
+                            Number of words added past week
+                        </h1>
+                        <div className="chart-container">
+                            <ResponsiveContainer width="100%" height={230}>
+                                <BarChart
+                                    data={data}
+                                    margin={{
+                                        top: 20,
+                                        right: 72,
+                                        left: 20,
+                                        bottom: 20,
+                                    }}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="name" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <defs>
+                                        <linearGradient
+                                            id="colorUv"
+                                            x1="0"
+                                            y1="0"
+                                            x2="0"
+                                            y2="1"
+                                        >
+                                            <stop
+                                                offset="0%"
+                                                stopColor="#326FB1"
+                                                stopOpacity={1}
+                                            />
+                                            <stop
+                                                offset="100%"
+                                                stopColor="#3AB4C5"
+                                                stopOpacity={1}
+                                            />
+                                        </linearGradient>
+                                    </defs>
+                                    <Bar
+                                        dataKey="value"
+                                        fill="url(#colorUv)"
+                                        radius={[10, 10, 0, 0]}
+                                    />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
 
-                {/* Section for Bar Chart */}
-                <div className="box1">
-                    <h1 className="header-text1">
-                        Number of words added past week
-                    </h1>
-                    <div className="chart-container">
-                        <ResponsiveContainer width="100%" height={230}>
-                            <BarChart
-                                data={data}
-                                margin={{
-                                    top: 20,
-                                    right: 72,
-                                    left: 20,
-                                    bottom: 20,
-                                }}
-                            >
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="name" />
-                                <YAxis />
-                                <Tooltip />
-                                <defs>
-                                    <linearGradient
-                                        id="colorUv"
-                                        x1="0"
-                                        y1="0"
-                                        x2="0"
-                                        y2="1"
-                                    >
-                                        <stop
-                                            offset="0%"
-                                            stopColor="#326FB1"
-                                            stopOpacity={1}
-                                        />
-                                        <stop
-                                            offset="100%"
-                                            stopColor="#3AB4C5"
-                                            stopOpacity={1}
-                                        />
-                                    </linearGradient>
-                                </defs>
-                                <Bar
-                                    dataKey="value"
-                                    fill="url(#colorUv)"
-                                    radius={[10, 10, 0, 0]}
+                    {/* Section for Circle Progress */}
+                    <div className="box2">
+                        <h1 className="header-text2">Average quiz score</h1>
+                        <div className="chart-container" id="chart-container2">
+                            {CircleProgress && (
+                                <CircleProgress
+                                    percentage={progress}
+                                    strokeWidth={
+                                        window.innerWidth * 0.1462 * 0.06 // 20% of circle size
+                                    }
+                                    primaryColor={["#3AB4C5", "#326FB1"]}
+                                    secondaryColor={"#fff"}
+                                    fontSize={"2em"}
+                                    width={window.innerWidth * 0.1462}
                                 />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
-                </div>
-
-                {/* Section for Circle Progress */}
-                <div className="box2">
-                    <h1 className="header-text2">Average quiz score</h1>
-                    <div className="chart-container">
-                        {CircleProgress && (
-                            <CircleProgress
-                                percentage={progress}
-                                strokeWidth={14}
-                                primaryColor={["#3AB4C5", "#326FB1"]}
-                                secondaryColor={"#fff"}
-                                fontSize={25}
-                            />
-                        )}
-                        <div className="text">
-                            <p className="number-quiz">Number of quiz taken:</p>
-                            <div className="textbox1">
-                                <p className="number">5</p>
-                            </div>
-                            <p className="highest">Highest quiz score:</p>
-                            <div className="textbox2">
-                                <p className="number">Adjectives</p>
-                            </div>
-                            <p className="lowest">Lowest quiz score:</p>
-                            <div className="textbox3">
-                                <p className="number">Verbs</p>
+                            )}
+                            <div className="text">
+                                <p className="number-quiz">
+                                    Number of quiz taken:
+                                </p>
+                                <div className="textbox1">
+                                    <p className="number">5</p>
+                                </div>
+                                <p className="highest">Highest quiz score:</p>
+                                <div className="textbox2">
+                                    <p className="number">Adjectives</p>
+                                </div>
+                                <p className="lowest">Lowest quiz score:</p>
+                                <div className="textbox3">
+                                    <p className="number">Verbs</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="view-screen-term-view">
-                <Dropdown
-                    selectedLanguageIndex={selectedLanguageIndex}
-                    onLanguageSelect={setSelectedLanguageIndex}
-                >
-                    {languages}
-                </Dropdown>
-                <TermView>{terms[selectedLanguageIndex]}</TermView>
+
+                <div className="view-screen-term-view">
+                    <div className="view-screen-dropdown">
+                        <Dropdown
+                            selectedLanguageIndex={selectedLanguageIndex}
+                            onLanguageSelect={setSelectedLanguageIndex}
+                        >
+                            {languages}
+                        </Dropdown>
+                    </div>
+                    <TermView showFolders>
+                        {terms[selectedLanguageIndex]}
+                    </TermView>
+                </div>
             </div>
         </div>
     );

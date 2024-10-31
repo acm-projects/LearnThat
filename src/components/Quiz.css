@@ -1,3 +1,8 @@
+body
+{
+    overflow:hidden;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -10,17 +15,15 @@ body {
 }
 
 .background {
-    background-color: white; 
-    min-height: 100vh; /* Full height of the viewport */
-    width: 100%; /* Full width */
-    height: 100%; 
-    padding-left: 30px;
-    padding-top: 42px;
+    background-color: white;     
+    width: 100vw; /* Full width */
+    height: 100vh; 
+    padding: 15vh 4.28vw 5vh;
 }
 
 .top {
-    width: 100%; /* Full width of the parent */
-    height: 80px; /* Height of the rectangle */
+    width: 100vw; /* Full width of the parent */
+    height: 10vh; /* Height of the rectangle */
     background: linear-gradient(to right,#326FB1, #3AB4C5); /* Gradient for the rectangle */
     position: absolute; /* Positioned relative to the .background */
     top: 0; /* Align at the top */
@@ -28,7 +31,7 @@ body {
     display: flex; /* Use flexbox for layout */
     align-items: center; /* Vertically center */
     justify-content: flex-start; /* Align to the left */
-    padding-left: 80px; /* Add some padding to the left */
+    padding-left: 5.9vw; /* Add some padding to the left */
     z-index: 1;
    
  
@@ -36,9 +39,9 @@ body {
 
 .header-text {
     color: white; /* Text color */
-    font-size: 40px; /* Font size */
+    font-size: 3em; /* Font size */
     font-weight: bold; /* Make the text bold */
-    margin-right: 60%; 
+    margin-right: 65%;
     
 }
 
@@ -55,7 +58,7 @@ body {
     margin-right: 20px; /* Adjust spacing between links */
     color: #fff; 
     text-decoration: none;
-    font-size: 18px;
+    font-size: 1.35em;
 }
 
 
@@ -75,48 +78,40 @@ body {
 }
 
 .rectangle {
-    width: 300px;
-    height: 550px;
+    width: 24.54vw;
+    height: 80.16vh;
     background-color: #C4F6FB;
     border-radius: 10px;
     padding-top: 3px;
-    margin-top:60px; 
+    /* margin-top:60px;  */
     position: relative; /* Ensure it is in the normal flow */
     z-index: 2;
     padding-left: 0px; 
     padding-top: 20px; 
+    display:flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.language{
-    width: 200px; 
-    height: 55px; 
-    background-color: #42C7D5;
-    display: flex; /* This will help align the text */
-    justify-content: center; /* Center text horizontally */
-    align-items: center; 
-    border-radius: 5px;
-    font-weight: bold;
+.quiz-screen-language-select
+{
+    width: 68%;        
+}
+
+.quiz-screen-language-select .btn-primary
+{
+    width:100%;
+    z-index: 2;
+}
+.quiz-screen-language-select .language-select-dropdown-menu
+{
+    z-index:1;
+    width:100%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    
 }
 
 
-
-.language-dropdown {
-    width: 200px;
-    height: 40px; 
-    padding: -2px;
-    padding-left: 60px;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: #42C7D5;
-    border: none;
-    color: black;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    margin-left: 45px;
-    display: block; /* Ensure it takes up the full line */
-    position: relative; /* To manage the dropdown appearance */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
   
 .group-container {
     display: flex;
@@ -125,11 +120,11 @@ body {
     background-color: white;
     border-radius: 10px;
     padding: 15px 15px;
-    margin-left: 25px;
+    margin-left: 10%;
     margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease-in-out;
-    width: 250px;
+    width: 80%;
     height: 40px; 
   }
   
@@ -151,7 +146,7 @@ body {
 
 .checkbox-container {
     margin-top: 20px; /* Adds space between language dropdown and checkboxes */
-    
+    width:100%;
   }
 
 .dropdown-container {

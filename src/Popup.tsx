@@ -45,7 +45,9 @@ function Popup() {
             >
                 {languages}
             </Dropdown>
-            <TermView>{terms[selectedLanguageIndex]}</TermView>
+            <TermView title="Recently Added Terms">
+                {terms[selectedLanguageIndex]}
+            </TermView>
         </>
     );
 }

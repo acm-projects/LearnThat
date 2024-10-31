@@ -6,9 +6,10 @@ import { FaCheck } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 // @ts-ignore
 import { CircleProgress } from "react-gradient-progress";
+import Dropdown from "./Dropdown";
 
 const Quiz = () => {
-    const [selectedLanguage, setSelectedLanguage] = useState("Japanese");
+    const [selectedLanguageIndex, setSelectedLanguageIndex] = useState(0);
 
     const [selectedTypes, setSelectedTypes] = useState<{
         [key: string]: boolean;
@@ -27,7 +28,7 @@ const Quiz = () => {
     const flashcardsData: {
         [key: string]: { [key: string]: { [key: string]: string }[] };
     } = {
-        Japanese: {
+        日本語: {
             Adjectives: [
                 {
                     front: "Japanese Adjective 1 - Front",
@@ -75,10 +76,8 @@ const Quiz = () => {
 
     const languages = ["日本語", "English", "Français", "español"];
 
-    const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const language = e.target.value;
-        setSelectedLanguage(language);
-        setCurrentFlashcard(0);
+    const handleLanguageChange = () => {
+        handleTryAgain();
     };
 
     const handleCheckboxChange =
@@ -95,7 +94,8 @@ const Quiz = () => {
         ) as (keyof typeof selectedTypes)[];
 
         return types.flatMap(
-            (type) => flashcardsData[selectedLanguage]?.[type] || []
+            (type) =>
+                flashcardsData[languages[selectedLanguageIndex]]?.[type] || []
         );
     };
 
@@ -167,18 +167,16 @@ const Quiz = () => {
 
             <div className="content-container">
                 <div className="rectangle">
-                    <div className="dropdown-container">
-                        <select
-                            value={selectedLanguage}
-                            onChange={handleLanguageChange}
-                            className="language-dropdown"
+                    <div className="quiz-screen-language-select">
+                        <Dropdown
+                            selectedLanguageIndex={selectedLanguageIndex}
+                            onLanguageSelect={(index) => {
+                                setSelectedLanguageIndex(index);
+                                handleLanguageChange();
+                            }}
                         >
-                            {languages.map((language, index) => (
-                                <option key={index} value={language}>
-                                    {language}
-                                </option>
-                            ))}
-                        </select>
+                            {languages}
+                        </Dropdown>
                     </div>
 
                     <div className="checkbox-container">

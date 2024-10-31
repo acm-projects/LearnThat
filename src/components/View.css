@@ -1,6 +1,7 @@
 #root
 {
     width:100%;
+    overflow:hidden;
 }
 
 * {
@@ -15,52 +16,11 @@ body {
 }
 
 .background {
-    background-color: white; 
-    min-height: 100vh; /* Full height of the viewport */
-    width: 1263px; /* Full width */
-    height: 700px; 
-    padding-left: 113px;
-    padding-top: 42px;
+    background-color: white;     
+    width: 100vw; /* Full width */
+    height: 100vh; 
+    padding: 15vh 5.9vw 5vh;
 }
-
-.top {
-    width: 1263px; /* Full width of the parent */
-    height: 80px; /* Height of the rectangle */
-    background: linear-gradient(to right,#326FB1, #3AB4C5); /* Gradient for the rectangle */
-    position: absolute; /* Positioned relative to the .background */
-    top: 0; /* Align at the top */
-    left: 0; /* Align to the left */
-    display: flex; /* Use flexbox for layout */
-    align-items: center; /* Vertically center */
-    justify-content: flex-start; /* Align to the left */
-    padding-left: 80px; /* Add some padding to the left */
-    z-index: 1;
-   
- 
-}
-
-.header-text {
-    color: white; /* Text color */
-    font-size: 40px; /* Font size */
-    font-weight: bold; /* Make the text bold */
-    margin-right: 550px; 
-}
-
-.right-text {
-    display: flex; /* Flexbox layout */
-    align-items: center; /* Vertically center the items */
-    justify-content: space-between; /* Space between elements */
-    width: 100%; 
-}
-
-
-.right-text a {
-    margin-right: 20px; /* Adjust spacing between links */
-    color: #fff; 
-    text-decoration: none;
-    font-size: 18px;
-}
-
 
 
 
@@ -76,12 +36,12 @@ body {
 
 
 .box1 {
-    width: 450px;
-    height: 250px;
+    width: 33.68vw;
+    height: 33.55vh;
     background-color: #C4F6FB;
     border-radius: 10px;
     padding-top: 3px;
-    margin-top:60px; 
+    /* margin-top:60px;  */
     position: relative; /* Ensure it is in the normal flow */
     z-index: 2;
 }
@@ -97,21 +57,22 @@ body {
     padding-right: 20px; 
     display: flex; /* Use flexbox for centering */
     justify-content: center; /* Center the chart */
-
+    flex:auto;
 }
 
 .header-text1 {
     color: #000; /* Text color */
-    font-size: 20px; /* Font size */
-    font-weight: semibold;
+    font-size: 1.5em; /* Font size */
+    font-weight: 500;
     text-align: center; /* Center text horizontally */
-    padding-top: 7px; 
+    padding-top: 25px; 
+    height:25%;
 
 }
 
 .box2 {
-    width: 450px;
-    height: 285px;
+    width: 33.68vw;
+    height: 43.37vh;
     background-color: #C4F6FB;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -129,11 +90,11 @@ body {
 
 .header-text2 {
     color: #000; /* Text color */
-    font-size: 20px; /* Font size */
-    font-weight: semibold;
+    font-size: 1.5em; /* Font size */
+    font-weight: 500;
     text-align: center; /* Center text horizontally */
-    padding-bottom: 10px;
-    padding-left: -20px;
+    padding-bottom: 20px;
+    /* height: 15% */
 }
 
 .flex-container {
@@ -220,4 +181,69 @@ body {
 }
 
 
+.view-content
+{
+    display:flex;
+}
 
+.view-screen-term-view{
+    background-color: #C4F6FB;
+    /*margin-top: 60px;*/
+    margin-left: 3.916vw;
+    width: 50.6vw;
+    height: 80.17vh;
+    flex:auto;
+    border-radius: 18.28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.view-screen-dropdown
+{
+    width: 33%;
+    margin-top: 25px;
+}
+
+.view-screen-dropdown .btn-primary
+{
+    width:100%;
+    height:100%;
+    font-size:1.5em;
+    z-index:2;
+
+}
+
+.view-screen-dropdown .language-select-dropdown-menu
+{
+    z-index:1;
+    width:100%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    
+}
+
+.view-screen-term-view .term-view
+{
+    width: 100%;
+    max-height: 85%;
+}
+
+.view-screen-term-view .term-view-term-area ul
+{    
+    width: 95%;
+    margin:auto;
+}
+.view-screen-term-view .term-view-term-area ul li.term
+{    
+    margin-left: 4.77%;
+}
+
+p{
+    margin-bottom:0;
+}
+
+h1
+{
+    margin-bottom: 0;
+    line-height: .5;
+}
