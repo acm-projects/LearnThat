@@ -1,6 +1,3 @@
-//import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
-//The file for highlighting the word and making it show up in the browser 4
-
 
 document.addEventListener('mouseup', (event) => {
     const selectedText = window.getSelection().toString().trim();
@@ -29,9 +26,9 @@ document.addEventListener('mouseup', (event) => {
 
             
             // Initial translation with default language (Spanish)
-            fetchTranslation(selectedText, 'es', tooltip);
+            fetchTranslation(selectedText, 'es' ,tooltip);
 
-            
+            //commit
             
             
             
@@ -194,10 +191,10 @@ function fetchTranslation(text, targetLanguage, tooltip) {
             saveButton.addEventListener('click', async () => {
                 saveTranslation(text, data.translation, targetLanguage);
             })
-    .catch(error => {
-        console.error('Error fetching translation:', error);
-        tooltip.innerHTML = 'Error fetching translation. Please try again.';
-    });
+   // .catch(error => {
+   //     console.error('Error fetching translation:', error);
+   //     tooltip.innerHTML = 'Error fetching translation. Please try again.';
+   // });
 });
 }
 
