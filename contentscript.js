@@ -347,6 +347,6 @@ function hideTooltip() {
     npm install express
     node translate.js (to host the server for our base url)
     When done make sure to control c in terminal or else whenever you highlight stuff on your laptop the api will be called
-    and we will run out of requests
+    and we will run out of requests now
     */
     

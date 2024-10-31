@@ -21,7 +21,7 @@ const db = admin.firestore();
 
 
 const translate = new Translate({
-    key: process.env.API_KEY, //Might need to hardcode api key later
+    key: process.env.API_KEY, //Might need to hardcode api key later now
 });
 
 const client = new textToSpeech.TextToSpeechClient({
