@@ -1,0 +1,185 @@
+// import flaticon
+@import "../node_modules/@flaticon/flaticon-uicons/css/all/all.css";
+
+
+// we can set specific bootstrap variables here to change default bootstrap styles
+// set primary color to the green-blue
+$primary: #43C8D6;
+
+$secondary: white;
+
+
+
+// import built in bootstrap rules
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+
+
+// currently used by language select dropdown button in the popup
+.btn-primary
+{
+    color: black;
+    width: 175px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0;
+    border-radius: 5px;
+
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+
+    position: relative;
+    z-index: 1;
+
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.btn-secondary
+{
+    color:black;
+    width: -webkit-fill-available;
+    min-height: 50px;
+    height: auto;
+    margin: 10px 12px 10px 20px;
+    border-radius: 15px;
+
+    
+}
+
+.btn-secondary:hover{
+    background-color: #F0F0F0;
+}
+
+// removes built in dropdown arrow from language select dropdown button
+.dropdown-toggle:after {
+    display: none;
+}
+
+
+
+// properly positions flaticon dropdown arrow for language select dropdown button
+.fi-br-angle-down:before {
+    position: relative;
+    top: 10.5px;
+    float: right;
+    right: 16px;
+}
+.language-select-dropdown-menu
+{
+    background-color: rgba(196, 246, 251, 1);
+    width: 175px;
+    color:black;
+    top: -10px !important;
+    z-index: 0;
+    border:0;    
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.language-select-option{
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 5px;
+    margin: 4px 6px;
+    width: auto;
+}
+
+.language-select-option:hover{
+    background-color: #98eef7;
+}
+.language-select-option:active{
+    color:black;
+}
+
+.title{
+    font-size: 42px;
+}
+
+a.title {
+    font-weight: 500;  
+    text-decoration: inherit;
+}
+
+
+.term-view
+{
+    background-color: rgba(196, 246, 251, 1);
+    width: 350px;
+    flex-grow:1;
+    max-height: 380px;
+    margin: 25px;    
+    text-align: center;    
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+}
+
+.term-view-title
+{
+    font-size: 24px;
+    font-weight: bold;
+    padding: 20px 20px 10px 20px;
+    color:black;
+}
+
+
+.term-flashcard
+{
+    display:flex;
+    border: none;
+    perspective: 1000px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.term-flashcard-flipped
+{
+    transform: rotateY(180deg);
+}
+
+.term-flashcard p{
+    text-align: left;
+    font-size: 24px;
+    font-weight: 500;
+    flex-grow:1;
+    margin:auto;
+    font-size: 24px;    
+}
+
+.term-flashcard-side
+{    
+    backface-visibility: hidden;
+}
+
+.term-flashcard-side-translation
+{
+    transform: rotateY(180deg);
+    font-size: 16px
+}
+
+.term-view-term-area
+{    
+    flex-grow: 1;
+    margin-right: 12px;
+    overflow-y: scroll;
+    margin-bottom: 5px;
+}
+
+::-webkit-scrollbar
+{
+    width: 7px;
+}
+
+::-webkit-scrollbar-track
+{
+    background:transparent;
+
+}
+
+::-webkit-scrollbar-thumb
+{
+    background: rgba(129, 198, 204, 1);
+    border-radius: 10px;
+}
