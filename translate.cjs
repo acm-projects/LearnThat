@@ -20,7 +20,7 @@ const db = admin.firestore();
 
 
 const translate = new Translate({
-    key: process.env.API_KEY,
+    key: process.env.API_KEY, //Might need to hardcode api key later no
 });
 
 const client = new textToSpeech.TextToSpeechClient({
@@ -55,19 +55,50 @@ app.post('/translate', async (req, res) => {
         await uploadAudioToStorage(audioFileName);
         const audioFileUrl = `https://storage.googleapis.com/${bucketName}/audio/${audioFileName}`;
 
-        const docRef = db.collection('translations').doc();
-        await docRef.set({
-            originalText: text,
-            translatedText: translation,
-            targetLanguage: targetLanguage,
-            audioFileUrl: audioFileUrl,
-            timestamp: admin.firestore.FieldValue.serverTimestamp(),
-        });
+        //const docRef = db.collection('translations').doc(targetLanguage).collection('words');
+        //await docRef.set({
+          //  originalText: text,
+            //translatedText: translation,
+            //targetLanguage: targetLanguage,
+            //audioFileUrl: audioFileUrl,
+            //timestamp: admin.firestore.FieldValue.serverTimestamp(),
+        //});
 
         res.json({ original: text, translation, audioFileUrl });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Translation failed or saving to Firestore failed' });
+    }
+});
+
+app.post('/save-translation', async (req, res) => {
+    const { originalText, translatedText, targetLanguage} = req.body;
+
+    //Comment this out, put this stuff in translation, make new endpoint to fetch translation
+    
+    try {
+        // Create a new document with a unique ID
+        const translatedWords = db.collection('translations').doc(targetLanguage).collection('words');
+            
+        const docRef = await translatedWords.add({
+            originalText,
+            translatedText,
+            targetLanguage,
+            //audioFileUrl,
+            timestamp: admin.firestore.FieldValue.serverTimestamp()
+        });
+
+        res.json({ 
+            success: true, 
+            message: 'Translation saved successfully',
+            docId: docRef.id 
+        });
+    } catch (err) {
+        console.error('Error saving to Firestore:', err);
+        res.status(500).json({ 
+            success: false, 
+            error: 'Failed to save translation' 
+        });
     }
 });
 
