@@ -304,14 +304,14 @@ style.textContent = `
     border-radius: 20px;
     padding: 20px;
     box-shadow: 4px 4px 4px rgba(0,0,0,0.25);
-    max-width: 400px;
+    max-width: 18em;
     z-index: 1000;
 }
 
 .tooltip-content {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 1em;
 }
 
 .text-box
@@ -319,14 +319,14 @@ style.textContent = `
 background-color: white;
 border-radius: 15px; 
 padding:0;
-min-height:57px;
+min-height:2em;
 }
 
 .text-box p
 {
-font-size: 24px;
+font-size: 1em;
 font-weight: 500;
-margin: 14px 25px;
+margin: .5em;
 }
 .add-bar
 {
@@ -336,9 +336,9 @@ display:flex;
 #language {
     border-radius:5px;
     text-align:center;
-    width: 165px;
-    height:40px;
-  font-size:16px;
+    width: 8em;
+    height:2em;
+  font-size:1em;
   font-weight:550;
   background: rgba(66, 199, 213, 1) !important;
 color: black !important;
@@ -346,6 +346,7 @@ border: none !important;
 position: relative !important;
 z-index: 1 !important;
 display:flex !important;
+padding:0;
 }
 
 #language:focus-visible {
@@ -355,13 +356,13 @@ display:flex !important;
 .dropdown-menu
 {
     background-color: rgba(196, 246, 251, 1) !important;
-    width: 165px !important;
+    width: 8em !important;
     min-width: 0 !important;
     max-height: 15em !important;
     overflow-y: scroll !important;
     overflow-x: hidden !important;
     color:black !important;
-    top: 30px !important;
+    top: 1.3em !important;
     z-index: 0 !important;
     border:0 !important;    
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
@@ -387,7 +388,7 @@ display:flex !important;
 .dropdown-toggle p
 {
     text-overflow: ellipsis;
-    max-width: 140px;    
+    max-width: 7em;    
     overflow-x: clip;
     margin: auto;
 }
@@ -399,9 +400,9 @@ margin:auto;
 
 .tooltip-language-select-dropdown-item {
   font-weight: bold !important;
-  font-size: 16px !important;
+  font-size: 0.8em !important;
   border-radius: 5px !important;
-  margin: 4px 6px !important;
+  margin: 0 6px !important;
   width: auto !important;
 
   display: inline-block;  
@@ -428,12 +429,13 @@ a.tooltip-language-select-dropdown-item.dropdown-item {
   color: black !important;
   border: none !important;      
   margin-left: auto;
-  margin-right: 13px;
+  margin-right: .4em;
   border-radius: 13px;
     cursor: pointer;
-    font-size: 40px;
+    font-size: 2em;
     line-height: 0.95;
-    width: 40px;
+    width: 1em;
+    padding:0;
 }
 
 #saveButton:hover {

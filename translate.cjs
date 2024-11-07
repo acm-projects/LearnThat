@@ -56,7 +56,8 @@ app.post('/translate', async (req, res) => {
     try {
         // Check if the normalized text already exists in translationsArray
         const existingTranslation = translationsArray.find(translation => 
-            translation.originalText.toLowerCase().trim() === normalizedText
+            ((translation.originalText.toLowerCase().trim() === normalizedText) &&
+            (translation.targetLanguage===targetLanguage))
         );
 
         if (existingTranslation) {
@@ -89,8 +90,9 @@ app.post('/translate', async (req, res) => {
         translationsArray.push({
             originalText: text,  
             translatedText: translation,
+            targetLanguage,
             audioFileUrl,
-            folderDestination,
+            //folderDestination,
         });
 
         // Respond with the original text, translated text, and audio file URL
@@ -192,7 +194,7 @@ app.listen(port, () => {
 
 
 
-
+module.exports={translationsArray};
 
 
 // Example usage
