@@ -1,8 +1,13 @@
 //import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 //The file for highlighting the word and making it show up in the browser 4
 
-
 document.addEventListener('mouseup', (event) => {
+    
+    const tooltip = document.getElementById('tooltip');
+    if (tooltip && tooltip.contains(event.target)) {
+        return; // don't do anything if you just clicked on the tooltip
+    }
+    
     const selectedText = window.getSelection().toString().trim();
 
     if (selectedText.length > 0) {
@@ -19,8 +24,7 @@ document.addEventListener('mouseup', (event) => {
                 tooltip = document.createElement('div');
                 tooltip.id = 'tooltip';
                 document.body.appendChild(tooltip);
-            }
-
+            }            
             // Position the tooltip
             tooltip.style.position = 'absolute';
             tooltip.style.left = `${rect.left + window.scrollX}px`;
@@ -28,8 +32,8 @@ document.addEventListener('mouseup', (event) => {
             tooltip.style.display = 'block';
 
             
-            // Initial translation with default language (Spanish)
-            fetchTranslation(selectedText, 'es' ,tooltip);
+            // Initial translation with default language (81 is the index of Spanish)
+            fetchTranslation(selectedText, 81 ,tooltip);
 
             //commit
             
@@ -45,7 +49,111 @@ document.addEventListener('mouseup', (event) => {
 });
 
 
-function fetchTranslation(text, targetLanguage, tooltip) { //API to get the translation
+function fetchTranslation(text, targetLanguageIndex, tooltip) { //API to get the translation
+    const languages = [["af", "Afrikaans"],
+["sq", "Albanian"],
+["am", "Amharic"],
+["ar", "Arabic"],
+["hy", "Armenian"],
+["az", "Azerbaijani"],
+["eu", "Basque"],
+["be", "Belarusian"],
+["bn", "Bengali"],
+["bs", "Bosnian"],
+["bg", "Bulgarian"],
+["ca", "Catalan"],
+["ceb", "Cebuano"],
+["zh-CN", "Chinese (Simplified)"],
+["zh-TW", "Chinese (Traditional)"],
+["co", "Corsican"],
+["hr", "Croatian"],
+["cs", "Czech"],
+["da", "Danish"],
+["nl", "Dutch"],
+["en", "English"],
+["eo", "Esperanto"],
+["et", "Estonian"],
+["fi", "Finnish"],
+["fr", "French"],
+["gl", "Galician"],
+["ka", "Georgian"],
+["de", "German"],
+["el", "Greek"],
+["gu", "Gujarati"],
+["ht", "Haitian Creole"],
+["ha", "Hausa"],
+["he", "Hebrew"],
+["hi", "Hindi"],
+["hu", "Hungarian"],
+["is", "Icelandic"],
+["ig", "Igbo"],
+["id", "Indonesian"],
+["ga", "Irish"],
+["it", "Italian"],
+["ja", "Japanese"],
+["jv", "Javanese"],
+["kn", "Kannada"],
+["kk", "Kazakh"],
+["km", "Khmer"],
+["ko", "Korean"],
+["ku", "Kurdish (Kurmanji)"],
+["ky", "Kyrgyz"],
+["lo", "Lao"],
+["la", "Latin"],
+["lv", "Latvian"],
+["lt", "Lithuanian"],
+["lb", "Luxembourgish"],
+["mk", "Macedonian"],
+["mg", "Malagasy"],
+["ms", "Malay"],
+["ml", "Malayalam"],
+["mt", "Maltese"],
+["mi", "Maori"],
+["mr", "Marathi"],
+["mn", "Mongolian"],
+["ne", "Nepali"],
+["no", "Norwegian"],
+["ps", "Pashto"],
+["fa", "Persian"],
+["pl", "Polish"],
+["pt-PT", "Portuguese (Portugal)"],
+["pt-BR", "Portuguese (Brazil)"],
+["pa", "Punjabi"],
+["ro", "Romanian"],
+["ru", "Russian"],
+["sm", "Samoan"],
+["gd", "Scots Gaelic"],
+["sr", "Serbian"],
+["st", "Sesotho"],
+["sn", "Shona"],
+["sd", "Sindhi"],
+["si", "Sinhala"],
+["sk", "Slovak"],
+["sl", "Slovenian"],
+["so", "Somali"],
+["es", "Spanish"],
+["su", "Sundanese"],
+["sw", "Swahili"],
+["sv", "Swedish"],
+["tl", "Tagalog"],
+["tg", "Tajik"],
+["ta", "Tamil"],
+["tt", "Tatar"],
+["te", "Telugu"],
+["th", "Thai"],
+["tr", "Turkish"],
+["uk", "Ukrainian"],
+["ur", "Urdu"],
+["uz", "Uzbek"],
+["vi", "Vietnamese"],
+["cy", "Welsh"],
+["xh", "Xhosa"],
+["yi", "Yiddish"],
+["yo", "Yoruba"],
+["zu", "Zulu"],
+]
+    
+    targetLanguage=languages[targetLanguageIndex][0];
     fetch('http://localhost:3000/translate', {
         method: 'POST',
         headers: {
@@ -61,132 +169,49 @@ function fetchTranslation(text, targetLanguage, tooltip) { //API to get the tran
     .then(data => {
         console.log('Translation:', data.translation);
         
-        // Update the tooltip with the translated text and dropdown
-        tooltip.innerHTML = `
-            <div class="tooltip-content">
-                <label for="language">Select a language to translate to:</label>
-                <select name="language" id="language">
-                    <option value="af">Afrikaans</option>
-                    <option value="sq">Albanian</option>
-                    <option value="am">Amharic</option>
-                    <option value="ar">Arabic</option>
-                    <option value="hy">Armenian</option>
-                    <option value="az">Azerbaijani</option>
-                    <option value="eu">Basque</option>
-                    <option value="be">Belarusian</option>
-                    <option value="bn">Bengali</option>
-                    <option value="bs">Bosnian</option>
-                    <option value="bg">Bulgarian</option>
-                    <option value="ca">Catalan</option>
-                    <option value="ceb">Cebuano</option>
-                    <option value="zh-CN">Chinese (Simplified)</option>
-                    <option value="zh-TW">Chinese (Traditional)</option>
-                    <option value="co">Corsican</option>
-                    <option value="hr">Croatian</option>
-                    <option value="cs">Czech</option>
-                    <option value="da">Danish</option>
-                    <option value="nl">Dutch</option>
-                    <option value="en">English</option>
-                    <option value="eo">Esperanto</option>
-                    <option value="et">Estonian</option>
-                    <option value="fi">Finnish</option>
-                    <option value="fr">French</option>
-                    <option value="gl">Galician</option>
-                    <option value="ka">Georgian</option>
-                    <option value="de">German</option>
-                    <option value="el">Greek</option>
-                    <option value="gu">Gujarati</option>
-                    <option value="ht">Haitian Creole</option>
-                    <option value="ha">Hausa</option>
-                    <option value="he">Hebrew</option>
-                    <option value="hi">Hindi</option>
-                    <option value="hu">Hungarian</option>
-                    <option value="is">Icelandic</option>
-                    <option value="ig">Igbo</option>
-                    <option value="id">Indonesian</option>
-                    <option value="ga">Irish</option>
-                    <option value="it">Italian</option>
-                    <option value="ja">Japanese</option>
-                    <option value="jv">Javanese</option>
-                    <option value="kn">Kannada</option>
-                    <option value="kk">Kazakh</option>
-                    <option value="km">Khmer</option>
-                    <option value="ko">Korean</option>
-                    <option value="ku">Kurdish (Kurmanji)</option>
-                    <option value="ky">Kyrgyz</option>
-                    <option value="lo">Lao</option>
-                    <option value="la">Latin</option>
-                    <option value="lv">Latvian</option>
-                    <option value="lt">Lithuanian</option>
-                    <option value="lb">Luxembourgish</option>
-                    <option value="mk">Macedonian</option>
-                    <option value="mg">Malagasy</option>
-                    <option value="ms">Malay</option>
-                    <option value="ml">Malayalam</option>
-                    <option value="mt">Maltese</option>
-                    <option value="mi">Maori</option>
-                    <option value="mr">Marathi</option>
-                    <option value="mn">Mongolian</option>
-                    <option value="ne">Nepali</option>
-                    <option value="no">Norwegian</option>
-                    <option value="ps">Pashto</option>
-                    <option value="fa">Persian</option>
-                    <option value="pl">Polish</option>
-                    <option value="pt-PT">Portuguese (Portugal)</option>
-                    <option value="pt-BR">Portuguese (Brazil)</option>
-                    <option value="pa">Punjabi</option>
-                    <option value="ro">Romanian</option>
-                    <option value="ru">Russian</option>
-                    <option value="sm">Samoan</option>
-                    <option value="gd">Scots Gaelic</option>
-                    <option value="sr">Serbian</option>
-                    <option value="st">Sesotho</option>
-                    <option value="sn">Shona</option>
-                    <option value="sd">Sindhi</option>
-                    <option value="si">Sinhala</option>
-                    <option value="sk">Slovak</option>
-                    <option value="sl">Slovenian</option>
-                    <option value="so">Somali</option>
-                    <option value="es">Spanish</option>
-                    <option value="su">Sundanese</option>
-                    <option value="sw">Swahili</option>
-                    <option value="sv">Swedish</option>
-                    <option value="tl">Tagalog</option>
-                    <option value="tg">Tajik</option>
-                    <option value="ta">Tamil</option>
-                    <option value="tt">Tatar</option>
-                    <option value="te">Telugu</option>
-                    <option value="th">Thai</option>
-                    <option value="tr">Turkish</option>
-                    <option value="uk">Ukrainian</option>
-                    <option value="ur">Urdu</option>
-                    <option value="uz">Uzbek</option>
-                    <option value="vi">Vietnamese</option>
-                    <option value="cy">Welsh</option>
-                    <option value="xh">Xhosa</option>
-                    <option value="yi">Yiddish</option>
-                    <option value="yo">Yoruba</option>
-                    <option value="zu">Zulu</option>
-                </select>
-                <div class="translation-content">
-                    <p><strong>Selected Text:</strong> ${text}</p>
-                    <p><strong>Translation:</strong> ${data.translation}</p>
-                </div>
-                <button id="saveButton">Save</button>
-            </div>
+      
+// Update the tooltip with the translated text and dropdown
+        let html = `            
+    <div class="tooltip-content learn-that-tooltip">
+      <div class="text-box">
+        <p>${text}</p>
+      </div>
+      <div class="text-box">
+        <p>${data.translation}</p>
+      </div>      
+      <div class="add-bar">
+        <button id="saveButton">+</button>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" name="language" id="language" type="button" data-bs-toggle="dropdown" data-bs-display="static">
+                        <p>Select Language</p>
+            </button>          
+            <ul class="dropdown-menu" id="language-dropdown">`;
+                    languages.map((x,index)=>
+                    "<li key=\""+index+ "\"><a class=\"tooltip-language-select-dropdown-item dropdown-item\" >"+x[1]+"</a></li>")
+                        .forEach(x=>html+=x);
+html+=`
+            </ul>
+        </div>
+      </div>
+        
+    </div>  
         `;
+        tooltip.innerHTML=html;
 
         // Set the current language in the dropdown
         const languageSelect = document.getElementById('language');
-        languageSelect.value = targetLanguage;
+        languageSelect.querySelector('p').innerHTML = languages[targetLanguageIndex][1];
 
-        // Add event listener for language change
-        languageSelect.addEventListener('change', (event) => {
-            
-            const newLanguage = event.target.value;
-            fetchTranslation(text, newLanguage, tooltip);
-          
+        const languageDropdownChildren = Array.from(document.getElementById('language-dropdown').children);
+
+        // Add onclick for language change
+        languageDropdownChildren.forEach(x=>{                    
+            let y = x.querySelector('a');            
+            y.onclick = () => {                            
+                fetchTranslation(text, x.getAttribute('key'), tooltip);        
+            }
         });
+        
 
         // Add event listener for save button
         const saveButton = document.getElementById('saveButton');
@@ -233,7 +258,6 @@ function fetchTranslation(text, targetLanguage, tooltip) { //API to get the tran
 // work});
 
 let tooltipVisible = false;
-let hideTimeout;
 
 function hideTooltip() {
     const tooltip = document.getElementById('tooltip');
@@ -245,10 +269,15 @@ function hideTooltip() {
 // Add listener to close tooltip only if clicked outside
 document.addEventListener('mousedown', (event) => {
     const tooltip = document.getElementById('tooltip');
-    if (tooltip && !tooltip.contains(event.target)) {
-        hideTimeout = setTimeout(() => {
-            hideTooltip();
-        }, 500); // Small delay to allow dropdown interaction
+    if (tooltip){
+        if(tooltip.contains(event.target)) 
+        {
+            event.preventDefault();
+        }
+        else
+        {
+            hideTooltip();            
+        }
     }
 });
 
@@ -256,48 +285,162 @@ document.addEventListener('mousedown', (event) => {
 
 
 
+// const link = document.createElement('link');
+// link.href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css";
+// link.rel="stylesheet";
+// document.head.appendChild(link);
+
+// const script = document.createElement('script');
+// script.src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js";
+// document.head.appendChild(script);
+
+
 // Add styles
 const style = document.createElement('style');
 style.textContent = `
-    #tooltip {
-        background: white;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 15px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        max-width: 400px;
-        z-index: 1000;
+#tooltip {
+    background: rgba(50, 111, 177, 0.8);
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 4px 4px 4px rgba(0,0,0,0.25);
+    max-width: 400px;
+    z-index: 1000;
+}
+
+.tooltip-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.text-box
+{
+background-color: white;
+border-radius: 15px; 
+padding:0;
+min-height:57px;
+}
+
+.text-box p
+{
+font-size: 24px;
+font-weight: 500;
+margin: 14px 25px;
+}
+.add-bar
+{
+display:flex;
+}
+
+#language {
+    border-radius:5px;
+    text-align:center;
+    width: 165px;
+    height:40px;
+  font-size:16px;
+  font-weight:550;
+  background: rgba(66, 199, 213, 1) !important;
+color: black !important;
+border: none !important;
+position: relative !important;
+z-index: 1 !important;
+display:flex !important;
+}
+
+#language:focus-visible {
+    box-shadow: none;
+}
+
+.dropdown-menu
+{
+    background-color: rgba(196, 246, 251, 1) !important;
+    width: 165px !important;
+    min-width: 0 !important;
+    max-height: 15em !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+    color:black !important;
+    top: 30px !important;
+    z-index: 0 !important;
+    border:0 !important;    
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
+}
+
+.dropdown-menu::-webkit-scrollbar
+{
+    width: 7px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track
+{
+    background:#c4f6fb;
+
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb
+{
+    background: rgba(129, 198, 204, 1);
+    border-radius: 10px;
+}
+
+.dropdown-toggle p
+{
+    text-overflow: ellipsis;
+    max-width: 140px;    
+    overflow-x: clip;
+    margin: auto;
+}
+
+.dropdown-toggle::after
+{
+margin:auto;
     }
 
-    .tooltip-content {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
+.tooltip-language-select-dropdown-item {
+  font-weight: bold !important;
+  font-size: 16px !important;
+  border-radius: 5px !important;
+  margin: 4px 6px !important;
+  width: auto !important;
 
-    #language {
-        margin-top: 5px;
-        padding: 5px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
-    }
+  display: inline-block;  
+    max-width: 165px;     
+    white-space: normal !important;
+    word-wrap: break-word;
+}
 
-    .translation-content {
-        margin: 10px 0;
-    }
+a.tooltip-language-select-dropdown-item.dropdown-item {
+    white-space: normal !important;
+}
 
-    #saveButton {
-        background: #4CAF50;
-        color: white;
-        border: none;
-        padding: 8px 15px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
+.dropdown-item:hover{
+  background-color: #98eef7 !important;
+  color: black !important;
+}
 
-    #saveButton:hover {
-        background: #45a049;
-    }
+.dropdown-item:active{
+  color:black !important;
+}
+
+#saveButton {  
+  background: rgba(66, 199, 213, 1) !important;
+  color: black !important;
+  border: none !important;      
+  margin-left: auto;
+  margin-right: 13px;
+  border-radius: 13px;
+    cursor: pointer;
+    font-size: 40px;
+    line-height: 0.95;
+    width: 40px;
+}
+
+#saveButton:hover {
+    background: rgba(29, 178, 194, 1);
+}
+
+
 `;
 document.head.appendChild(style);
 
@@ -350,3 +493,73 @@ function hideTooltip() {
     and we will run out of requests now
     */
     
+/*
+
+
+
+
+#tooltip {
+        background: rgba(50, 111, 177, 0.8);
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 4px 4px 4px rgba(0,0,0,0.25);
+        max-width: 400px;
+        z-index: 1000;
+    }
+
+    .tooltip-content {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+.text-box
+{
+  background-color: white;
+  border-radius: 15px; 
+  padding:0;
+}
+
+.text-box p
+{
+  font-size: 24px;
+  font-weight: 500;
+  margin: 10px 25px 14px;
+  
+}
+.add-bar
+{
+  display:flex;
+}
+.add-bar *
+{
+  background: rgba(66, 199, 213, 1) !important;
+  color: black !important;
+  border: none !important;
+}
+    #language {
+        border-radius:5px;
+        text-align:center;
+        width: 145px;
+      font-size:16px;
+      font-weight:500;
+    }
+
+    #saveButton {        
+      margin-left: auto;
+      margin-right: 13px;
+      border-radius: 13px;
+        cursor: pointer;
+        font-size: 40px;
+        line-height: 1;
+        width: 40px;
+    }
+
+    #saveButton:hover {
+        background: rgba(29, 178, 194, 1);
+    }
+
+
+
+*/
