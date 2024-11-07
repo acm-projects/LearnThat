@@ -214,7 +214,8 @@ npm install @google-cloud/storage
 npm install fs
 node public/translate.js
 
-to view array go to http://localhost:3000/translations
+to view array go to 
+http://localhost:3000/translations
 */
 
 
