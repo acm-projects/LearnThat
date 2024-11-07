@@ -1,4 +1,3 @@
-
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -9,39 +8,66 @@ const { Storage } = require('@google-cloud/storage');
 const fs = require('fs');
 require('dotenv').config();
 
+
 const app = express();
 const port = 3000;
 
+
 const serviceAccount = require('./firebaseServiceAccount.json');
+
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
-const db = admin.firestore(); 
+const db = admin.firestore();
 
 
 const translate = new Translate({
-    key: process.env.API_KEY, //Might need to hardcode api key later no
+    key: process.env.API_KEY, 
 });
+
 
 const client = new textToSpeech.TextToSpeechClient({
     keyFilename: './firebaseServiceAccount.json',
 });
+
 
 const storage = new Storage({
     keyFilename: './firebaseServiceAccount.json',
 });
 const bucketName = 'learnthat-217f4.appspot.com';
 
+
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
-// Translate and save the highlighted text to Firestore
+
+// Array to store each translation's data
+const translationsArray = [];
+
+
 app.post('/translate', async (req, res) => {
     const { text, targetLanguage } = req.body;
 
+    // Normalize input text (trim spaces and convert to lowercase for case-insensitive comparison)
+    const normalizedText = text.trim().toLowerCase();
+
     try {
+        // Check if the normalized text already exists in translationsArray
+        const existingTranslation = translationsArray.find(translation => 
+            translation.originalText.toLowerCase().trim() === normalizedText
+        );
+
+        if (existingTranslation) {
+            // If it exists, respond with the existing translation
+            return res.json({
+                original: text,
+                translation: existingTranslation.translatedText,
+                audioFileUrl: existingTranslation.audioFileUrl
+            });
+        }
+        // Proceed with translation and text-to-speech synthesis
         const [translation] = await translate.translate(text, targetLanguage);
         const request = {
             input: { text: translation },
@@ -56,15 +82,18 @@ app.post('/translate', async (req, res) => {
         await uploadAudioToStorage(audioFileName);
         const audioFileUrl = `https://storage.googleapis.com/${bucketName}/audio/${audioFileName}`;
 
-        //const docRef = db.collection('translations').doc(targetLanguage).collection('words');
-        //await docRef.set({
-          //  originalText: text,
-            //translatedText: translation,
-            //targetLanguage: targetLanguage,
-            //audioFileUrl: audioFileUrl,
-            //timestamp: admin.firestore.FieldValue.serverTimestamp(),
-        //});
+        // Folder destination for the audio file
+        const folderDestination = `audio/${audioFileName}`;
 
+        // Save the new data in the translationsArray
+        translationsArray.push({
+            originalText: text,  
+            translatedText: translation,
+            audioFileUrl,
+            folderDestination,
+        });
+
+        // Respond with the original text, translated text, and audio file URL
         res.json({ original: text, translation, audioFileUrl });
     } catch (err) {
         console.error(err);
@@ -72,10 +101,10 @@ app.post('/translate', async (req, res) => {
     }
 });
 
+
 app.post('/save-translation', async (req, res) => {
     const { originalText, translatedText, targetLanguage} = req.body;
 
-    //Comment this out, put this stuff in translation, make new endpoint to fetch translation
     
     try {
         // Create a new document with a unique ID
@@ -126,6 +155,14 @@ app.delete('/delete-translation', async (req, res) => {
     }
 });
 
+
+
+// Endpoint to view the saved translations array
+app.get('/translations', (req, res) => {
+    res.json(translationsArray);
+});
+
+
 // Function to upload audio file to Firebase Storage
 async function uploadAudioToStorage(fileName) {
     try {
@@ -142,15 +179,20 @@ async function uploadAudioToStorage(fileName) {
     }
 }
 
+
 app.get('/audio/:fileName', (req, res) => {
     const filePath = req.params.fileName;
     res.sendFile(`${__dirname}/${filePath}`);
 });
 
-// Start the server
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
+
+
+
 
 
 // Example usage
@@ -160,6 +202,7 @@ const targetLanguage = 'es'; // Spanish
 translateText(textToTranslate, targetLanguage);
 */
 
+
 /*
 Run the following lines in the terminal to get it to work. Make sure to have an API key:
 cd LearnThat
@@ -168,4 +211,11 @@ npm install @google-cloud/text-to-speech
 npm install @google-cloud/storage
 npm install fs
 node public/translate.js
+
+to view array go to http://localhost:3000/translations
 */
+
+
+
+
+
