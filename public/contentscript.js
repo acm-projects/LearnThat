@@ -217,7 +217,7 @@ html+=`
         const saveButton = document.getElementById('saveButton');
       
             saveButton.addEventListener('click', async () => {
-                saveTranslation(text, data.translation, targetLanguage);
+                saveTranslation(text, data.translation, targetLanguage, data.audioFileUrl);
             })
    // .catch(error => {
    //     console.error('Error fetching translation:', error);
@@ -227,7 +227,7 @@ html+=`
 }
 
 //saveButton.addEventListener('click', async () => {
-    async function saveTranslation(originalText, translatedText, targetLanguage) { //Save translation endpoint
+    async function saveTranslation(originalText, translatedText, targetLanguage, audioFileUrl) { //Save translation endpoint
         try {
             const response = await fetch('http://localhost:3000/save-translation', {
                 method: 'POST',
@@ -237,7 +237,8 @@ html+=`
                 body: JSON.stringify({
                     originalText,
                     translatedText,
-                    targetLanguage
+                    targetLanguage,
+                    audioFileUrl,
                 })
             });
             

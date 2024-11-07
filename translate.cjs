@@ -65,6 +65,7 @@ app.post('/translate', async (req, res) => {
             return res.json({
                 original: text,
                 translation: existingTranslation.translatedText,
+                targetLanguage: existingTranslation.targetLanguage,
                 audioFileUrl: existingTranslation.audioFileUrl
             });
         }
@@ -86,17 +87,10 @@ app.post('/translate', async (req, res) => {
         // Folder destination for the audio file
         const folderDestination = `audio/${audioFileName}`;
 
-        // Save the new data in the translationsArray
-        translationsArray.push({
-            originalText: text,  
-            translatedText: translation,
-            targetLanguage,
-            audioFileUrl,
-            //folderDestination,
-        });
+        
 
         // Respond with the original text, translated text, and audio file URL
-        res.json({ original: text, translation, audioFileUrl });
+        res.json({ original: text, translation, targetLanguage, audioFileUrl });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Translation failed or saving to Firestore failed' });
@@ -105,20 +99,29 @@ app.post('/translate', async (req, res) => {
 
 
 app.post('/save-translation', async (req, res) => {
-    const { originalText, translatedText, targetLanguage} = req.body;
-
+    const { originalText, translatedText, targetLanguage, audioFileUrl} = req.body;    
     
     try {
         // Create a new document with a unique ID
         const translatedWords = db.collection('translations').doc(targetLanguage).collection('words');
-            
+
         const docRef = await translatedWords.add({
             originalText,
             translatedText,
             targetLanguage,
-            //audioFileUrl,
+            audioFileUrl,
             timestamp: admin.firestore.FieldValue.serverTimestamp()
         });
+        
+
+        // Save the new data in the translationsArray
+        translationsArray.push({
+            originalText: originalText,  
+            translatedText: translatedText,
+            targetLanguage,
+            audioFileUrl            //folderDestination,
+        });
+        
 
         res.json({ 
             success: true, 
