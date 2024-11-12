@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./Quiz.css";
 import { CiSettings } from "react-icons/ci";
 import { Link } from "react-router-dom";
@@ -7,17 +7,113 @@ import { RxCross2 } from "react-icons/rx";
 // @ts-ignore
 import { CircleProgress } from "react-gradient-progress";
 import Dropdown from "./Dropdown";
+import { Term } from "./Flashcard.tsx";
+
+const referenceLanguages = [
+    ["af", "Afrikaans"],
+    ["sq", "Albanian"],
+    ["am", "Amharic"],
+    ["ar", "Arabic"],
+    ["hy", "Armenian"],
+    ["az", "Azerbaijani"],
+    ["eu", "Basque"],
+    ["be", "Belarusian"],
+    ["bn", "Bengali"],
+    ["bs", "Bosnian"],
+    ["bg", "Bulgarian"],
+    ["ca", "Catalan"],
+    ["ceb", "Cebuano"],
+    ["zh-CN", "Chinese (Simplified)"],
+    ["zh-TW", "Chinese (Traditional)"],
+    ["co", "Corsican"],
+    ["hr", "Croatian"],
+    ["cs", "Czech"],
+    ["da", "Danish"],
+    ["nl", "Dutch"],
+    ["en", "English"],
+    ["eo", "Esperanto"],
+    ["et", "Estonian"],
+    ["fi", "Finnish"],
+    ["fr", "French"],
+    ["gl", "Galician"],
+    ["ka", "Georgian"],
+    ["de", "German"],
+    ["el", "Greek"],
+    ["gu", "Gujarati"],
+    ["ht", "Haitian Creole"],
+    ["ha", "Hausa"],
+    ["he", "Hebrew"],
+    ["hi", "Hindi"],
+    ["hu", "Hungarian"],
+    ["is", "Icelandic"],
+    ["ig", "Igbo"],
+    ["id", "Indonesian"],
+    ["ga", "Irish"],
+    ["it", "Italian"],
+    ["ja", "Japanese"],
+    ["jv", "Javanese"],
+    ["kn", "Kannada"],
+    ["kk", "Kazakh"],
+    ["km", "Khmer"],
+    ["ko", "Korean"],
+    ["ku", "Kurdish (Kurmanji)"],
+    ["ky", "Kyrgyz"],
+    ["lo", "Lao"],
+    ["la", "Latin"],
+    ["lv", "Latvian"],
+    ["lt", "Lithuanian"],
+    ["lb", "Luxembourgish"],
+    ["mk", "Macedonian"],
+    ["mg", "Malagasy"],
+    ["ms", "Malay"],
+    ["ml", "Malayalam"],
+    ["mt", "Maltese"],
+    ["mi", "Maori"],
+    ["mr", "Marathi"],
+    ["mn", "Mongolian"],
+    ["ne", "Nepali"],
+    ["no", "Norwegian"],
+    ["ps", "Pashto"],
+    ["fa", "Persian"],
+    ["pl", "Polish"],
+    ["pt-PT", "Portuguese (Portugal)"],
+    ["pt-BR", "Portuguese (Brazil)"],
+    ["pa", "Punjabi"],
+    ["ro", "Romanian"],
+    ["ru", "Russian"],
+    ["sm", "Samoan"],
+    ["gd", "Scots Gaelic"],
+    ["sr", "Serbian"],
+    ["st", "Sesotho"],
+    ["sn", "Shona"],
+    ["sd", "Sindhi"],
+    ["si", "Sinhala"],
+    ["sk", "Slovak"],
+    ["sl", "Slovenian"],
+    ["so", "Somali"],
+    ["es", "Spanish"],
+    ["su", "Sundanese"],
+    ["sw", "Swahili"],
+    ["sv", "Swedish"],
+    ["tl", "Tagalog"],
+    ["tg", "Tajik"],
+    ["ta", "Tamil"],
+    ["tt", "Tatar"],
+    ["te", "Telugu"],
+    ["th", "Thai"],
+    ["tr", "Turkish"],
+    ["uk", "Ukrainian"],
+    ["ur", "Urdu"],
+    ["uz", "Uzbek"],
+    ["vi", "Vietnamese"],
+    ["cy", "Welsh"],
+    ["xh", "Xhosa"],
+    ["yi", "Yiddish"],
+    ["yo", "Yoruba"],
+    ["zu", "Zulu"],
+];
 
 const Quiz = () => {
-    const [selectedLanguageIndex, setSelectedLanguageIndex] = useState(0);
-
-    const [selectedTypes, setSelectedTypes] = useState<{
-        [key: string]: boolean;
-    }>({
-        Adjectives: true,
-        Nouns: false,
-    });
-
     const [currentFlashcard, setCurrentFlashcard] = useState(0);
     const [score, setScore] = useState(0);
     const [progress, setProgress] = useState(0);
@@ -25,82 +121,153 @@ const Quiz = () => {
     const [showResult, setShowResult] = useState(false);
     const [quizComplete, setQuizComplete] = useState(false);
 
-    const flashcardsData: {
-        [key: string]: { [key: string]: { [key: string]: string }[] };
-    } = {
-        日本語: {
-            Adjectives: [
-                {
-                    front: "Japanese Adjective 1 - Front",
-                    back: "Japanese Adjective 1 - Back",
-                },
-                {
-                    front: "Japanese Adjective 2 - Front",
-                    back: "Japanese Adjective 2 - Back",
-                },
-            ],
-            Nouns: [
-                {
-                    front: "Japanese Noun 1 - Front",
-                    back: "Japanese Noun 1 - Back",
-                },
-                {
-                    front: "Japanese Noun 2 - Front",
-                    back: "Japanese Noun 2 - Back",
-                },
-            ],
-        },
-        English: {
-            Adjectives: [
-                {
-                    front: "English Adjective 1 - Front",
-                    back: "English Adjective 1 - Back",
-                },
-                {
-                    front: "English Adjective 2 - Front",
-                    back: "English Adjective 2 - Back",
-                },
-            ],
-            Nouns: [
-                {
-                    front: "English Noun 1 - Front",
-                    back: "English Noun 1 - Back",
-                },
-                {
-                    front: "English Noun 2 - Front",
-                    back: "English Noun 2 - Back",
-                },
-            ],
-        },
-    };
+    const [languages, setLanguages] = useState(["No Terms"]);
+    const [terms, setTerms] = useState([
+        [
+            {
+                originalText: "No Terms Added Yet",
+                translatedText: "No Terms Added Yet",
+                audioFileUrl: "",
+            },
+        ],
+    ]);
 
-    const languages = ["日本語", "English", "Français", "español"];
+    async function getTermData() {
+        let newTerms: Term[][] = [];
+        let newLanguages: string[] = [];
 
-    const handleLanguageChange = () => {
-        handleTryAgain();
-    };
+        await fetch("http://localhost:3000/translations")
+            .then((x) => x.text()) // request text from page
+            .then((y) => {
+                let termDataString = y;
+                if (termDataString == "[]") {
+                    return;
+                }
+                const termData: String[][] = termDataString
+                    .slice(2)
+                    .slice(0, termDataString.length - 4)
+                    .split("},{")
+                    .map((x) => x.split(","))
+                    .map((x) =>
+                        x.map((y) => y.slice(y.indexOf(":") + 2, y.length - 1))
+                    ); //
+                termData.forEach((x) => {
+                    const newTerm: Term = {
+                        originalText: x[0].valueOf(),
+                        translatedText: x[1].valueOf(),
+                        //targetLanguage: x[2].valueOf(),
+                        audioFileUrl: x[3].valueOf(),
+                    };
+                    let referenceLanguage = referenceLanguages.find(
+                        (y) => y[0] == x[2]
+                    );
+                    let language = "undefined";
+                    if (referenceLanguage) language = referenceLanguage[1];
+                    if (newLanguages.indexOf(language) == -1) {
+                        newLanguages.push(language);
+                        newTerms.push([]);
+                    }
+                    newTerms[newLanguages.indexOf(language)].push(newTerm);
+                });
+                console.log(newTerms);
+                setLanguages(newLanguages);
+                setTerms(newTerms);
+            });
+    }
 
-    const handleCheckboxChange =
-        (type: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-            setSelectedTypes((prev) => ({
-                ...prev,
-                [type]: e.target.checked,
-            }));
-        };
+    if (languages[0] === "No Terms") {
+        getTermData();
+    }
+    console.log(languages);
+
+    const [selectedLanguages, setSelectedLanguages] = useState(
+        languages.map(() => true)
+    );
+
+    if (selectedLanguages.length != languages.length) {
+        setSelectedLanguages(languages.map(() => true));
+    }
+    console.log(selectedLanguages);
+
+    // const flashcardsData: {
+    //     [key: string]: { [key: string]: { [key: string]: string }[] };
+    // } = {
+    //     日本語: {
+    //         Adjectives: [
+    //             {
+    //                 front: "Japanese Adjective 1 - Front",
+    //                 back: "Japanese Adjective 1 - Back",
+    //             },
+    //             {
+    //                 front: "Japanese Adjective 2 - Front",
+    //                 back: "Japanese Adjective 2 - Back",
+    //             },
+    //         ],
+    //         Nouns: [
+    //             {
+    //                 front: "Japanese Noun 1 - Front",
+    //                 back: "Japanese Noun 1 - Back",
+    //             },
+    //             {
+    //                 front: "Japanese Noun 2 - Front",
+    //                 back: "Japanese Noun 2 - Back",
+    //             },
+    //         ],
+    //     },
+    //     English: {
+    //         Adjectives: [
+    //             {
+    //                 front: "English Adjective 1 - Front",
+    //                 back: "English Adjective 1 - Back",
+    //             },
+    //             {
+    //                 front: "English Adjective 2 - Front",
+    //                 back: "English Adjective 2 - Back",
+    //             },
+    //         ],
+    //         Nouns: [
+    //             {
+    //                 front: "English Noun 1 - Front",
+    //                 back: "English Noun 1 - Back",
+    //             },
+    //             {
+    //                 front: "English Noun 2 - Front",
+    //                 back: "English Noun 2 - Back",
+    //             },
+    //         ],
+    //     },
+    // };
 
     const getFilteredFlashcards = () => {
-        const types = Object.keys(selectedTypes).filter(
-            (type) => selectedTypes[type as keyof typeof selectedTypes]
-        ) as (keyof typeof selectedTypes)[];
-
-        return types.flatMap(
-            (type) =>
-                flashcardsData[languages[selectedLanguageIndex]]?.[type] || []
-        );
+        let flashcards = terms
+            .filter((_languageTerms, index) => selectedLanguages[index])
+            .flat(1);
+        if (flashcards.length == 0) {
+            flashcards = [
+                {
+                    originalText: "No Terms Added Yet",
+                    translatedText: "No Terms Added Yet",
+                    audioFileUrl: "",
+                },
+            ];
+        }
+        return flashcards;
     };
 
-    const filteredFlashcards = getFilteredFlashcards();
+    let filteredFlashcards = getFilteredFlashcards();
+    console.log(filteredFlashcards);
     const totalFlashcards = filteredFlashcards.length;
+
+    const handleCheckboxChange =
+        (languageIndex: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+            console.log(languageIndex + "  " + e.target.checked);
+            let newSelectedLanguages = Array.from(selectedLanguages);
+            newSelectedLanguages[languageIndex] = e.target.checked;
+            setSelectedLanguages(newSelectedLanguages);
+            console.log(selectedLanguages);
+            filteredFlashcards = getFilteredFlashcards();
+            handleTryAgain();
+        };
 
     const handleNextFlashcard = (isCorrect: boolean) => {
         if (isCorrect) {
@@ -151,7 +318,7 @@ const Quiz = () => {
             return () => clearInterval(interval);
         }
     }, [showResult, score, totalFlashcards]);
-
+    console.log("rerender");
     return (
         <div className="background">
             <div className="top">
@@ -167,36 +334,28 @@ const Quiz = () => {
 
             <div className="content-container">
                 <div className="rectangle">
-                    <div className="quiz-screen-language-select">
-                        <Dropdown
-                            selectedLanguageIndex={selectedLanguageIndex}
-                            onLanguageSelect={(index) => {
-                                setSelectedLanguageIndex(index);
-                                handleLanguageChange();
-                            }}
-                        >
-                            {languages}
-                        </Dropdown>
-                    </div>
-
                     <div className="checkbox-container">
-                        {Object.keys(selectedTypes).map((type) => (
-                            <div className="group-container" key={type}>
-                                <input
-                                    type="checkbox"
-                                    checked={
-                                        selectedTypes[
-                                            type as keyof typeof selectedTypes
-                                        ]
-                                    }
-                                    onChange={handleCheckboxChange(type)}
-                                />
-                                {type}
-                            </div>
-                        ))}
+                        <ul>
+                            {selectedLanguages.map(
+                                (selected, languageIndex) => (
+                                    <div
+                                        className="group-container"
+                                        key={languageIndex + " " + selected}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            checked={selected}
+                                            onChange={handleCheckboxChange(
+                                                languageIndex
+                                            )}
+                                        />
+                                        {languages[languageIndex]}
+                                    </div>
+                                )
+                            )}
+                        </ul>
                     </div>
                 </div>
-
                 <div className="rightpart">
                     {!quizComplete && (
                         <>
@@ -216,11 +375,14 @@ const Quiz = () => {
                                 <div className="front">
                                     {
                                         filteredFlashcards[currentFlashcard]
-                                            ?.front
+                                            .originalText
                                     }
                                 </div>
                                 <div className="back">
-                                    {filteredFlashcards[currentFlashcard]?.back}
+                                    {
+                                        filteredFlashcards[currentFlashcard]
+                                            .translatedText
+                                    }
                                 </div>
                             </div>
 

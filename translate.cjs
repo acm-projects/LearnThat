@@ -50,15 +50,12 @@ const translationsArray = [];
 app.post('/translate', async (req, res) => {
     const { text, targetLanguage } = req.body;
 
-    // Normalize input text (trim spaces and convert to lowercase for case-insensitive comparison)
-    const normalizedText = text.trim().toLowerCase();
+    
 
     try {
-        // Check if the normalized text already exists in translationsArray
-        const existingTranslation = translationsArray.find(translation => 
-            ((translation.originalText.toLowerCase().trim() === normalizedText) &&
-            (translation.targetLanguage===targetLanguage))
-        );
+        
+        
+        existingTranslation = getExistingTranslation(text, targetLanguage);
 
         if (existingTranslation) {
             // If it exists, respond with the existing translation
@@ -99,9 +96,20 @@ app.post('/translate', async (req, res) => {
 
 
 app.post('/save-translation', async (req, res) => {
-    const { originalText, translatedText, targetLanguage, audioFileUrl} = req.body;    
-    
+    const { originalText, translatedText, targetLanguage, audioFileUrl} = req.body;        
+
+    existingTranslation = getExistingTranslation(originalText, targetLanguage);
+    if(existingTranslation)
+    {
+        return res.status(500).json({ 
+            success: false, 
+            error: 'Translation already saved'
+        });
+    }
+
     try {
+        
+        
         // Create a new document with a unique ID
         const translatedWords = db.collection('translations').doc(targetLanguage).collection('words');
 
@@ -112,7 +120,7 @@ app.post('/save-translation', async (req, res) => {
             audioFileUrl,
             timestamp: admin.firestore.FieldValue.serverTimestamp()
         });
-        
+                
 
         // Save the new data in the translationsArray
         translationsArray.push({
@@ -224,4 +232,22 @@ http://localhost:3000/translations
 
 
 
+function getExistingTranslation(text, targetLanguage)
+{
+    // Normalize input text (trim spaces and convert to lowercase for case-insensitive comparison)
+    const normalizedText = text.trim().toLowerCase();
+            
+    // Check if the normalized text already exists in translationsArray
+    let existingTranslation = undefined;
+    
+    if(translationsArray.length>0)
+    {
 
+        existingTranslation=translationsArray.find(translation => 
+            ((translation.originalText.toLowerCase().trim() === normalizedText) &&
+            (translation.targetLanguage===targetLanguage))
+        );
+    }
+
+    return existingTranslation
+}

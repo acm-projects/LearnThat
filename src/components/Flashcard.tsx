@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import "./Flashcard.css";
 
 export interface Term {
-    selection: string;
-    translation: string;
-    audioUrl: string;
+    originalText: string;
+    translatedText: string;
+    audioFileUrl: string;
 }
 
 interface Props {
@@ -13,8 +13,11 @@ interface Props {
 }
 
 const Flashcard = ({
-    children: { selection, translation, audioUrl },
+    children: { originalText, translatedText, audioFileUrl },
 }: Props) => {
+    const selection = originalText;
+    const translation = translatedText;
+    const audioUrl = audioFileUrl;
     const [isFlipped, setIsFlipped] = useState(false);
 
     useEffect(() => setIsFlipped(false), [selection, translation]); // reset flashcard when selection or translation is updated (when language is changed)
@@ -34,7 +37,7 @@ const Flashcard = ({
             onClick={() => setIsFlipped(!isFlipped)}
         >
             <p className={flashcardSideClass}>{cardSide}</p>
-            {!isFlipped && (
+            {isFlipped && (
                 <a
                     className={flashcardSideClass}
                     onClick={(event) => pronounce(event, audioUrl)}
